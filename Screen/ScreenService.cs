@@ -1,4 +1,6 @@
-﻿namespace RetroRedo.Screen
+﻿using Microsoft.Xna.Framework.Graphics;
+
+namespace RetroRedo.Screen
 {
     public class ScreenService : IScreenService
     {
@@ -35,9 +37,6 @@
             CurrentScreen.Update();
         }
 
-        public void RenderScreen()
-        {
-            CurrentScreen.Render();
-        }
+        public void RenderScreen(SpriteBatch spriteBatch) => CurrentScreen.Render(spriteBatch);
     }
 }

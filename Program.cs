@@ -15,10 +15,12 @@ namespace RetroRedo
             containerBuilder.RegisterModule<GameModule>();
             var container = containerBuilder.Build();
 
-            var game = container.Resolve<Game>();
+            var scope = container.BeginLifetimeScope();
+            var game = scope.Resolve<Game>();
             game.Run();
-            
+
             game.Dispose();
+            scope.Dispose();
         }
     }
 }

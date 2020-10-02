@@ -1,4 +1,6 @@
-﻿namespace RetroRedo.Screen
+﻿using Microsoft.Xna.Framework.Graphics;
+
+namespace RetroRedo.Screen
 {
     public class BlankScreen : IScreen
     {
@@ -10,9 +12,10 @@
             // Does nothing
         }
 
-        public void Render()
+        public void Render(SpriteBatch spriteBatch)
         {
             // Does nothing
         }
+
     }
 }

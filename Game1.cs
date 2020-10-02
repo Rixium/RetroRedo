@@ -49,7 +49,7 @@ namespace RetroRedo
         {
             GraphicsDevice.Clear(Color.Black);
             
-            _screenService.RenderScreen();
+            _screenService.RenderScreen(_spriteBatch);
             
             base.Draw(gameTime);
         }
