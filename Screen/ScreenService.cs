@@ -12,10 +12,7 @@
             _screenProvider = screenProvider;
         }
 
-        public void SetNextScreen(IScreen nextScreen)
-        {
-            NextScreen = nextScreen;
-        }
+        public void SetNextScreen(ScreenType screenType) => NextScreen = _screenProvider.GetScreen(screenType);
 
         public void Update()
         {

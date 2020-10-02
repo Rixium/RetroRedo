@@ -4,7 +4,7 @@
     {
         IScreen CurrentScreen { get; }
         IScreen NextScreen { get; }
-        void SetNextScreen(IScreen nextScreen);
+        void SetNextScreen(ScreenType screenType);
         void Update();
     }
 }

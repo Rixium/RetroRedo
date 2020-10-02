@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RetroRedo.Screen
 {
@@ -10,5 +11,8 @@ namespace RetroRedo.Screen
         {
             Screens = screens;
         }
+
+        public IScreen GetScreen(ScreenType screenType) =>
+            Screens.FirstOrDefault(x => x.ScreenType.Equals(screenType));
     }
 }

@@ -2,6 +2,6 @@
 {
     public class GameScreen : IScreen
     {
-        
+        public ScreenType ScreenType => ScreenType.Game;
     }
 }

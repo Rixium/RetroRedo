@@ -20,6 +20,13 @@ namespace RetroRedo
             IsMouseVisible = true;
         }
 
+        protected override void Initialize()
+        {
+            _screenService.SetNextScreen(ScreenType.Splash);
+            
+            base.Initialize();
+        }
+        
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
