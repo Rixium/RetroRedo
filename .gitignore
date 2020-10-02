@@ -170,3 +170,4 @@ fabric.properties
 /.vs/Mayday/v15/Server/sqlite3/storage.ide
 /.vs/Mayday/v15/Server/sqlite3/storage.ide-shm
 /.vs/Mayday/v15/Server/sqlite3/storage.ide-wal
+/.idea/**
