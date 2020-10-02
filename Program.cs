@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using Microsoft.Xna.Framework;
 using RetroRedo.Modules;
 
 namespace RetroRedo
@@ -15,7 +14,7 @@ namespace RetroRedo
             containerBuilder.RegisterModule<GameModule>();
             var container = containerBuilder.Build();
 
-            var game = container.Resolve<Game>();
+            var game = container.Resolve<Game1>();
             game.Run();
             
             game.Dispose();
