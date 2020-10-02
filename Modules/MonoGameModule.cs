@@ -1,7 +1,5 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
 namespace RetroRedo.Modules
 {
@@ -9,9 +7,8 @@ namespace RetroRedo.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Game1>();
-            builder.RegisterType<ContentManager>();
-            builder.RegisterType<GameServiceContainer>().As<IServiceProvider>();
+            builder.RegisterType<Game1>().As<Game>().SingleInstance();
+            
             base.Load(builder);
         }
     }
