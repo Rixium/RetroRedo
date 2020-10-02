@@ -5,6 +5,7 @@
         IScreen CurrentScreen { get; }
         IScreen NextScreen { get; }
         void SetNextScreen(ScreenType screenType);
-        void Update();
+        void UpdateScreen();
+        void RenderScreen();
     }
 }

@@ -39,15 +39,18 @@ namespace RetroRedo
             _contentChest.Load();
         }
 
+        protected override void Update(GameTime gameTime)
+        {
+            _screenService.UpdateScreen();
+            base.Update(gameTime);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/splash"), new Rectangle(0, 0, 1280, 720),
-                Color.White);
-            _spriteBatch.End();
-
+            
+            _screenService.RenderScreen();
+            
             base.Draw(gameTime);
         }
     }

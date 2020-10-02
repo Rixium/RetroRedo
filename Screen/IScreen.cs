@@ -2,6 +2,9 @@
 {
     public interface IScreen
     {
-        ScreenType ScreenType { get; }        
+        ScreenType ScreenType { get; }     
+        bool Ended { get; }
+        void Update();
+        void Render();
     }
 }
