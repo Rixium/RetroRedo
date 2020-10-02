@@ -8,7 +8,7 @@ namespace RetroRedo
     public static class Program
     {
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<MonoGameModule>();
