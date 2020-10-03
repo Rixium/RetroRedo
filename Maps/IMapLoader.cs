@@ -5,7 +5,7 @@ namespace RetroRedo.Maps
 {
     public interface IMapLoader
     {
-        IReadOnlyDictionary<int, Map> LoadAll();
-        Map LoadMap(int number);
+        IReadOnlyDictionary<int, TiledMap> LoadAll();
+        TiledMap LoadMap(int number);
     }
 }

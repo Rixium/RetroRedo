@@ -10,9 +10,9 @@ namespace RetroRedo.Maps
 {
     internal class MapLoader : IMapLoader
     {
-        private readonly IDictionary<int, Map> _maps = new Dictionary<int, Map>();
+        private readonly IDictionary<int, TiledMap> _maps = new Dictionary<int, TiledMap>();
 
-        public IReadOnlyDictionary<int, Map> LoadAll()
+        public IReadOnlyDictionary<int, TiledMap> LoadAll()
         {
             if (_maps.Count != 0)
             {
@@ -25,14 +25,14 @@ namespace RetroRedo.Maps
             {
                 var mapText = File.ReadAllText(mapFile);
                 var mapNumber = GetMapNumber(mapFile);
-                var map = JsonConvert.DeserializeObject<Map>(mapText);
+                var map = JsonConvert.DeserializeObject<TiledMap>(mapText);
                 _maps.Add(mapNumber, map);
             }
 
             return _maps.ToImmutableDictionary();
         }
 
-        public Map LoadMap(int number)
+        public TiledMap LoadMap(int number)
         {
             LoadAll();
 
