@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
+using RetroRedo.Components;
 using RetroRedo.Data;
 using RetroRedo.Entities;
 
@@ -37,12 +39,18 @@ namespace RetroRedo.Maps
                     x.Properties.First(y => y.Name.Equals("Name", StringComparison.OrdinalIgnoreCase)).Value
                         .Equals("playerStart", StringComparison.OrdinalIgnoreCase));
 
-            var entities = new List<IEntity>
-            {
+            var player =
                 new Player((int) playerStartPosition.X / tiledMap.TileWidth - 1,
-                    (int) playerStartPosition.Y / tiledMap.TileHeight - 1)
-            };
+                    (int) playerStartPosition.Y / tiledMap.TileHeight - 1);
 
+            player.AddComponent(Program.Container.Resolve<PlayerMovementComponent>());
+            player.AddComponent(Program.Container.Resolve<CommandSetComponent>());
+
+            var entities = new List<IEntity>()
+            {
+                player
+            };
+            
             return entities;
         }
 
