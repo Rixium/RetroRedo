@@ -7,7 +7,7 @@
   <property name="Name" value="Walk Walk Win"/>
  </properties>
  <tileset firstgid="1" source="Tiles_1.tsx"/>
- <layer id="1" name="map_layer" width="10" height="10">
+ <layer id="1" name="tiles" width="10" height="10">
   <data encoding="csv">
 1,2,2,2,2,2,2,2,2,3,
 21,22,22,22,22,22,22,22,22,23,
