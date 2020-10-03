@@ -37,6 +37,10 @@ namespace RetroRedo.Screen
 
         public void Update()
         {
+            foreach (var entity in _activeMap.Entities)
+            {
+                entity.Update();
+            }
         }
 
         public void Render(SpriteBatch spriteBatch)
