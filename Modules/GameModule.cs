@@ -13,6 +13,7 @@ namespace RetroRedo.Modules
         {
             builder.RegisterType<ScreenProvider>().As<IScreenProvider>().InstancePerLifetimeScope();
             builder.RegisterType<WindowSettings>().As<IWindowSettings>().InstancePerLifetimeScope();
+            builder.RegisterType<MapParser>().As<IMapParser>().InstancePerLifetimeScope();
             builder.RegisterType<MapRenderer>().As<IMapRenderer>();
 
             RegisterContentLoaders(builder);
