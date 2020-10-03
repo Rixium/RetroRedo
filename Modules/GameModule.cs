@@ -1,4 +1,4 @@
-using Autofac;
+﻿using Autofac;
 using RetroRedo.Content;
 using RetroRedo.Input;
 using RetroRedo.Maps;
@@ -13,6 +13,7 @@ namespace RetroRedo.Modules
         {
             builder.RegisterType<ScreenProvider>().As<IScreenProvider>().InstancePerLifetimeScope();
             builder.RegisterType<WindowSettings>().As<IWindowSettings>().InstancePerLifetimeScope();
+            builder.RegisterType<MapRenderer>().As<IMapRenderer>();
 
             RegisterContentLoaders(builder);
             RegisterServices(builder);
@@ -40,6 +41,7 @@ namespace RetroRedo.Modules
             builder.RegisterType<GameScreen>().As<IScreen>();
             builder.RegisterType<MainMenuScreen>().As<IScreen>();
             builder.RegisterType<SplashScreen>().As<IScreen>();
+            builder.RegisterType<MapTransitionScreen>().As<IScreen>();
         }
     }
 }

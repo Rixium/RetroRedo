@@ -5,6 +5,7 @@
         Splash,
         MainMenu,
         Game,
-        None
+        None,
+        MapTransitionScreen
     }
 }

@@ -43,7 +43,8 @@ namespace RetroRedo.Screen
 
             _inputService.OnKeyPressed(Keys.X, () =>
             {
-                RequestScreenChange?.Invoke(ScreenType.Game);
+                _inputService.Reset();
+                RequestScreenChange?.Invoke(ScreenType.MapTransitionScreen);
                 Ended = true;
             });
             
