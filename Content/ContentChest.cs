@@ -19,6 +19,7 @@ namespace RetroRedo.Content
         {
             // Images
             _contentManager.Load<Texture2D>(Path.Combine("Images", "splash"));
+            _contentManager.Load<Texture2D>(Path.Combine("Images", "pixel"));
             
             // Fonts
             _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "MainFont"));
