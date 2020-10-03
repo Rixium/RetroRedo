@@ -19,7 +19,7 @@ namespace RetroRedo.Screen
     {
         private Camera _camera = new Camera();
 
-        private static int CurrentMapHistoryState = CurrentMap;
+        private static int _currentMapHistoryState;
         private static MapEntityHistoryService _mapEntityHistoryService;
         
         public static int CurrentMap = 1;
@@ -39,9 +39,9 @@ namespace RetroRedo.Screen
             _mapLoader = new MapLoader(new MapParser());
             _mapRenderer = new MapRenderer();
 
-            if (CurrentMap > CurrentMapHistoryState)
+            if (CurrentMap > _currentMapHistoryState)
             {
-                CurrentMapHistoryState = CurrentMap;
+                _currentMapHistoryState = CurrentMap;
                 _mapEntityHistoryService = new MapEntityHistoryService();
             }
 
