@@ -27,14 +27,31 @@ namespace RetroRedo.Screen
             _screenProvider = screenProvider;
         }
 
-        public void SetNextScreen(ScreenType screenType) => NextScreen = _screenProvider.GetScreen(screenType);
+        public void SetNextScreen(ScreenType screenType)
+        {
+            NextScreen = _screenProvider.GetScreen(screenType);
+            NextScreen.RequestScreenChange = OnScreenChangeRequest;
+        }
+
+        private void OnScreenChangeRequest(ScreenType screenType) => SetNextScreen(screenType);
 
         public void UpdateScreen()
         {
             if (CurrentScreen.Ended)
-                CurrentScreen = NextScreen;
+            {
+                GoToNextScreen();
+            }
+            else
+            {
+                CurrentScreen.Update();
+            }
+        }
 
-            CurrentScreen.Update();
+        private void GoToNextScreen()
+        {
+            CurrentScreen = NextScreen;
+            CurrentScreen.Begin();
+            NextScreen = null;
         }
 
         public void RenderScreen(SpriteBatch spriteBatch) => CurrentScreen.Render(spriteBatch);

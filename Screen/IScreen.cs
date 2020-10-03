@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace RetroRedo.Screen
 {
@@ -6,6 +7,8 @@ namespace RetroRedo.Screen
     {
         ScreenType ScreenType { get; }     
         bool Ended { get; }
+        Action<ScreenType> RequestScreenChange { get; set; }
+        void Begin();
         void Update();
         void Render(SpriteBatch spriteBatch);
     }
