@@ -14,6 +14,7 @@ namespace RetroRedo.Screen
         private const string StartGameText = "Press X to Redo";
 
         private readonly IWindowSettings _windowSettings;
+        private readonly IGameTimeService _gameTimeService;
         private readonly IInputService _inputService;
         private readonly IContentChest _contentChest;
         public ScreenType ScreenType => ScreenType.MainMenu;
@@ -21,14 +22,14 @@ namespace RetroRedo.Screen
         public bool Ended { get; private set; }
         public Action<ScreenType> RequestScreenChange { get; set; }
 
+        private FadeyText _startGameText;
         private Vector2 _gameTitleTextSize;
-        private Vector2 _startGameTextSize;
-        private SpriteFont _mainFont;
         private SpriteFont _titleFont;
 
-        public MainMenuScreen(IWindowSettings windowSettings, IInputService inputService, IContentChest contentChest)
+        public MainMenuScreen(IWindowSettings windowSettings, IGameTimeService gameTimeService, IInputService inputService, IContentChest contentChest)
         {
             _windowSettings = windowSettings;
+            _gameTimeService = gameTimeService;
             _inputService = inputService;
             _contentChest = contentChest;
         }
@@ -38,19 +39,18 @@ namespace RetroRedo.Screen
             _titleFont = _contentChest.Get<SpriteFont>("Fonts/TitleFont");
             _gameTitleTextSize = _titleFont.MeasureString(GameTitle);
 
-            _mainFont = _contentChest.Get<SpriteFont>("Fonts/MainFont");
-            _startGameTextSize = _mainFont.MeasureString(StartGameText);
+            var mainFont = _contentChest.Get<SpriteFont>("Fonts/MainFont");
 
             _inputService.OnKeyPressed(Keys.X, () =>
             {
                 RequestScreenChange?.Invoke(ScreenType.Game);
                 Ended = true;
             });
+            
+            _startGameText = new FadeyText(StartGameText, mainFont, _windowSettings.Center);
         }
 
-        public void Update()
-        {
-        }
+        public void Update() => _startGameText.Update(_gameTimeService.DeltaTime);
 
         public void Render(SpriteBatch spriteBatch)
         {
@@ -59,10 +59,8 @@ namespace RetroRedo.Screen
             spriteBatch.DrawString(_titleFont, GameTitle,
                 _windowSettings.Center - (new Vector2(0, 1) * _windowSettings.Center / 2) - _gameTitleTextSize / 2,
                 Color.White);
-
-            spriteBatch.DrawString(_mainFont, StartGameText,
-                _windowSettings.Center - _startGameTextSize / 2,
-                Color.White);
+            
+            _startGameText.Render(spriteBatch);
 
             spriteBatch.End();
         }
