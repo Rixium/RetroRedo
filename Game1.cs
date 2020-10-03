@@ -13,22 +13,24 @@ namespace RetroRedo
         private readonly IContentChest _contentChest;
         private readonly IScreenService _screenService;
         private readonly IInputService _inputService;
+        private readonly IGameTimeService _gameTimeService;
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1(IWindowSettings windowSettings, IContentChest contentChest, IScreenService screenService, IInputService inputService)
+        public Game1(IWindowSettings windowSettings, IContentChest contentChest, IScreenService screenService, IInputService inputService, IGameTimeService gameTimeService)
         {
             _windowSettings = windowSettings;
             _contentChest = contentChest;
             _screenService = screenService;
             _inputService = inputService;
+            _gameTimeService = gameTimeService;
             _graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            _screenService.SetNextScreen(ScreenType.Splash);
+            _screenService.SetNextScreen(ScreenType.MainMenu);
             
             base.Initialize();
         }
@@ -47,6 +49,7 @@ namespace RetroRedo
 
         protected override void Update(GameTime gameTime)
         {
+            _gameTimeService.Update(gameTime);
             _inputService.Update();
             _screenService.UpdateScreen();
             base.Update(gameTime);

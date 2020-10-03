@@ -23,6 +23,7 @@ namespace RetroRedo.Modules
         {
             builder.RegisterType<ScreenService>().As<IScreenService>().InstancePerLifetimeScope();
             builder.RegisterType<InputService>().As<IInputService>().InstancePerLifetimeScope();
+            builder.RegisterType<GameTimeService>().As<IGameTimeService>().InstancePerLifetimeScope();
         }
 
         private static void RegisterScreenTypes(ContainerBuilder builder)
