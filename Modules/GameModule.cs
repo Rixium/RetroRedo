@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using RetroRedo.Content;
 using RetroRedo.Screen;
+using RetroRedo.Window;
 
 namespace RetroRedo.Modules
 {
@@ -10,6 +11,7 @@ namespace RetroRedo.Modules
             builder.RegisterType<ContentChest>().As<IContentChest>().InstancePerLifetimeScope();
             builder.RegisterType<ScreenProvider>().As<IScreenProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ScreenService>().As<IScreenService>().InstancePerLifetimeScope();
+            builder.RegisterType<WindowSettings>().As<IWindowSettings>().InstancePerLifetimeScope();
 
             RegisterScreenTypes(builder);
             
