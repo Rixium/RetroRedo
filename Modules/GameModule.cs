@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using RetroRedo.Components;
 using RetroRedo.Content;
 using RetroRedo.Input;
 using RetroRedo.Maps;
@@ -19,8 +20,15 @@ namespace RetroRedo.Modules
             RegisterContentLoaders(builder);
             RegisterServices(builder);
             RegisterScreenTypes(builder);
+            RegisterComponents(builder);
 
             base.Load(builder);
+        }
+
+        private static void RegisterComponents(ContainerBuilder builder)
+        {
+            builder.RegisterType<PlayerMovementComponent>();
+            builder.RegisterType<CommandSetComponent>();
         }
 
         private void RegisterContentLoaders(ContainerBuilder builder)
@@ -32,8 +40,8 @@ namespace RetroRedo.Modules
         private static void RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterType<ScreenService>().As<IScreenService>().InstancePerLifetimeScope();
-            builder.RegisterType<InputService>().As<IInputService>().InstancePerLifetimeScope();
-            builder.RegisterType<GameTimeService>().As<IGameTimeService>().InstancePerLifetimeScope();
+            builder.RegisterType<InputService>().As<IInputService>().SingleInstance();
+            builder.RegisterType<GameTimeService>().As<IGameTimeService>().SingleInstance();
             builder.RegisterType<GameStateService>().As<IGameStateService>().InstancePerLifetimeScope();
         }
 
