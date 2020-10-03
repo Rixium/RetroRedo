@@ -13,5 +13,13 @@ namespace RetroRedo.Maps
         public IList<IEntity> Entities { get; set; }
         public int TileHeight { get; set; }
         public int TileWidth { get; set; }
+
+        public void Begin()
+        {
+            foreach (var entity in Entities)
+            {
+                entity.Begin();
+            }
+        }
     }
 }

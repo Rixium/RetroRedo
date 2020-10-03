@@ -10,6 +10,11 @@ namespace RetroRedo.Components
 
         private readonly Queue<ICommand> _commandQueue = new Queue<ICommand>();
         private readonly Stack<ICommand> _commandStack = new Stack<ICommand>();
+        
+        public void Begin()
+        {
+            
+        }
 
         public void Update()
         {

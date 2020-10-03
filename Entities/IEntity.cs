@@ -11,5 +11,6 @@ namespace RetroRedo.Entities
         void Update();
         void AddComponent(IComponent component);
         T GetComponent<T>() where T : IComponent;
+        void Begin();
     }
 }

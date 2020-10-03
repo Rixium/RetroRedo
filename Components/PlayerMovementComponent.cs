@@ -14,7 +14,10 @@ namespace RetroRedo.Components
         public PlayerMovementComponent(IInputService inputService)
         {
             _inputService = inputService;
+        }
 
+        public void Begin()
+        {
             _inputService.OnKeyPressed(Keys.D, () =>
             {
                 var commandSetComponent = Entity.GetComponent<CommandSetComponent>();

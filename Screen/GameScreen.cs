@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using RetroRedo.Content;
+using RetroRedo.Input;
 using RetroRedo.Maps;
 
 namespace RetroRedo.Screen
@@ -12,6 +14,7 @@ namespace RetroRedo.Screen
         private readonly IGameStateService _gameStateService;
         private readonly IMapLoader _mapLoader;
         private readonly IMapRenderer _mapRenderer;
+        private readonly IInputService _inputService;
 
         private Map _activeMap;
 
@@ -20,19 +23,31 @@ namespace RetroRedo.Screen
         public Action<ScreenType> RequestScreenChange { get; set; }
 
         public GameScreen(IContentChest contentChest, IGameStateService gameStateService, IMapLoader mapLoader,
-            IMapRenderer mapRenderer)
+            IMapRenderer mapRenderer, IInputService inputService)
         {
             _contentChest = contentChest;
             _gameStateService = gameStateService;
             _mapLoader = mapLoader;
             _mapRenderer = mapRenderer;
+            _inputService = inputService;
         }
 
         public void Begin()
         {
+            Ended = false;
+            
             var activeMapId = _gameStateService.CurrentLevel;
             _activeMap = _mapLoader.LoadMap(activeMapId);
             _mapRenderer.SetMap(_activeMap);
+            
+            _inputService.OnKeyPressed(Keys.X, () =>
+            {
+                _inputService.Reset();
+                Ended = true;
+                RequestScreenChange?.Invoke(ScreenType.Game);
+            });
+
+            _activeMap.Begin();
         }
 
         public void Update()

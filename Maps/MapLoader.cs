@@ -20,9 +20,8 @@ namespace RetroRedo.Maps
         
         public IReadOnlyCollection<Map> LoadAll()
         {
-            if (_maps.Count != 0)
-                return _maps.ToImmutableList();
-
+            _maps = new List<Map>();
+            
             var mapFiles = Directory.GetFiles(Path.Combine("Content", "Maps"));
 
             foreach (var mapFile in mapFiles)

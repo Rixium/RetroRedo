@@ -26,5 +26,13 @@ namespace RetroRedo.Entities
 
         public T GetComponent<T>() where T : IComponent => 
             (T) Components.FirstOrDefault(x => x.GetType() == typeof(T));
+
+        public void Begin()
+        {
+            foreach (var component in Components)
+            {
+                component.Begin();
+            }
+        }
     }
 }
