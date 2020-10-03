@@ -30,6 +30,7 @@ namespace RetroRedo.Screen
             }
         }
 
+        public float TransitionSpeed { get; set; } = 10f;
         public IScreen NextScreen { get; private set; }
 
         public ScreenService(IScreenProvider screenProvider, IContentChest contentChest, IWindowSettings windowSettings,
@@ -53,7 +54,7 @@ namespace RetroRedo.Screen
         {
             if (_transitioningOut)
             {
-                _currentTransitionAlpha += _gameTimeService.DeltaTime;
+                _currentTransitionAlpha += _gameTimeService.DeltaTime * TransitionSpeed;
                 if (_currentTransitionAlpha >= 1)
                 {
                     _transitioningOut = false;
@@ -63,7 +64,7 @@ namespace RetroRedo.Screen
             }
             else if (_transitioningIn)
             {
-                _currentTransitionAlpha -= _gameTimeService.DeltaTime;
+                _currentTransitionAlpha -= _gameTimeService.DeltaTime * TransitionSpeed;
                 if (_currentTransitionAlpha <= 0)
                 {
                     _transitioningIn = false;
@@ -82,6 +83,7 @@ namespace RetroRedo.Screen
                 }
             }
         }
+
 
         private void GoToNextScreen()
         {
