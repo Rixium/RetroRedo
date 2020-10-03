@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="5" height="9" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="11">
  <editorsettings>
-  <export target="../Maps/map_2.json" format="json"/>
+  <export target="../Maps/map_3.json" format="json"/>
  </editorsettings>
  <properties>
   <property name="Name" value="Press X, And Redo"/>
