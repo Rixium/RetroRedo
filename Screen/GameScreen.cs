@@ -61,6 +61,12 @@ namespace RetroRedo.Screen
 
         private void ResetMap()
         {
+            foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
+            {
+                var autoCommandComponent = entity.GetComponent<AutoCommandComponent>();
+                autoCommandComponent.ForceFinish();
+            }
+            
             SaveHistoricalEntities();
             _inputService.Reset();
             Ended = true;

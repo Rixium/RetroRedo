@@ -21,8 +21,17 @@ namespace RetroRedo.Components
         public void Begin()
         {
             _commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-            CommandQueue = _commandSetComponent.GetAsQueue();
             _commandSetComponent.UndoAll();
+            CommandQueue = _commandSetComponent.GetAsQueue();
+        }
+
+        public void ForceFinish()
+        {
+            while (CommandQueue.Count > 0)
+            {
+                CommandQueue.TryDequeue(out var nextCommand);
+                nextCommand?.Do(Entity);
+            }
         }
 
         public void Update()
