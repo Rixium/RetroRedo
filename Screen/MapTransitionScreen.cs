@@ -26,14 +26,27 @@ namespace RetroRedo.Screen
         {
             _mapLoader = new MapLoader(new MapParser());
         }
+        
         public void Begin()
         {
+            if (Ended) return;
+            
             var activeLevel = GameScreen.CurrentMap;
-            var activeMap = _mapLoader.LoadMap(activeLevel);
-            _mapName = activeMap.Name;
+            
             _mapNameFont = ContentChest.Get<SpriteFont>("Fonts/TitleFont");
-            _mapNameSize = _mapNameFont.MeasureString(_mapName);
-
+            
+            try
+            {
+                var activeMap = _mapLoader.LoadMap(activeLevel);
+                _mapName = activeMap.Name;
+                _mapNameSize = _mapNameFont.MeasureString(_mapName);
+            }
+            catch (Exception)
+            {              
+                _mapName = "";
+                _mapNameSize = Vector2.Zero;
+            }
+            
             var timer = new Timer
             {
                 Interval = MillisecondsToShowFor,

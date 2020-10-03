@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using RetroRedo.Data;
-using RetroRedo.Exceptions;
 
 namespace RetroRedo.Maps
 {
@@ -42,7 +41,7 @@ namespace RetroRedo.Maps
         {
             LoadAll();
             var map = _maps.FirstOrDefault(x => x.Id == mapId);
-            return map ?? throw new MapNotExistException();
+            return map;
         }
 
         private static int GetMapNumber(string mapFile)

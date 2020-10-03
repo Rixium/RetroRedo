@@ -35,7 +35,12 @@ namespace RetroRedo.Screen
             NextScreen.RequestScreenChange = OnScreenChangeRequest;
         }
 
-        private void OnScreenChangeRequest(IScreen screen) => SetNextScreen(screen);
+        private void OnScreenChangeRequest(IScreen screen)
+        {
+            SetNextScreen(screen);
+            _transitioningOut = false;
+            _transitioningIn = false;
+        }
 
         public void UpdateScreen(float delta)
         {

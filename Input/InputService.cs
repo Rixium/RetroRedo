@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
 
@@ -30,7 +31,7 @@ namespace RetroRedo.Input
                 _keyPressed.Where(x => keysPressed.Contains(x.Key))
                     .Concat(_keyHeld.Where(x => keysHeld.Contains(x.Key)))
                     .Concat(_keyReleased.Where(x => keysReleased.Contains(x.Key)))
-                    .Select(x => x.Value);
+                    .Select(x => x.Value).ToImmutableList();
 
             foreach (var action in keyPressedActions)
             {

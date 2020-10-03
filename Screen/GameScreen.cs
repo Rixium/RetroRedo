@@ -35,10 +35,7 @@ namespace RetroRedo.Screen
             _mapLoader = new MapLoader(new MapParser());
             _mapRenderer = new MapRenderer();
             _mapEntityHistoryService = new MapEntityHistoryService();
-        }
-
-        public void Begin()
-        {
+            
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(ContentChest.Get<Song>("Music/background"));
@@ -59,6 +56,11 @@ namespace RetroRedo.Screen
             _activeMap.Begin();
             
             Ended = false;
+        }
+
+        public void Begin()
+        {
+
         }
 
         private void ResetMap()
@@ -129,13 +131,26 @@ namespace RetroRedo.Screen
 
         private void EndLevel()
         {
+            if (Ended)
+            {
+                return;
+            }
+            
+            Ended = true;
             ContentChest.Get<SoundEffect>("Sounds/Clap").Play();
             _mapEntityHistoryService.Reset();
             Game1.Input.Reset();
             TurnService.PlayersTurn = true;
             CurrentMap++;
-            RequestScreenChange?.Invoke(new MapTransitionScreen());
-            Ended = true;
+
+            if (_mapLoader.LoadMap(CurrentMap) == null)
+            {
+                RequestScreenChange?.Invoke(new MainMenuScreen());
+            }
+            else
+            {
+                RequestScreenChange?.Invoke(new MapTransitionScreen());
+            }
         }
 
         public void Render(SpriteBatch spriteBatch)
