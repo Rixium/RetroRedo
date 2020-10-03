@@ -27,6 +27,8 @@ namespace RetroRedo.Screen
             MediaPlayer.Play(ContentChest.Get<Song>("Music/menu"));
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.2f;
+
+            Game1.ActiveSong = "Music/menu";
         }
         
         public void Begin()

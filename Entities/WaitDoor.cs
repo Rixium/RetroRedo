@@ -38,8 +38,9 @@ namespace RetroRedo.Entities
 
             if (_waitTime <= 0)
             {
+                _waitTime = 0;
                 ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
-                Blocking = !Blocking;
+                Blocking = false;
             }
         }
     }

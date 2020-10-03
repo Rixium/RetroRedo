@@ -23,8 +23,10 @@ namespace RetroRedo
             _screenService = new ScreenService();
             _gameTimeService = new GameTimeService();
             _graphics = new GraphicsDeviceManager(this);
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
+
+        public static string ActiveSong { get; set; }
 
         protected override void Initialize()
         {

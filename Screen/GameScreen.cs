@@ -45,10 +45,11 @@ namespace RetroRedo.Screen
                 _mapEntityHistoryService = new MapEntityHistoryService();
             }
 
-            if (MediaPlayer.State != MediaState.Playing)
+            if (Game1.ActiveSong != "Music/background")
             {
                 MediaPlayer.Play(ContentChest.Get<Song>("Music/background"));
                 MediaPlayer.IsRepeating = true;
+                Game1.ActiveSong = "Music/background";
             }
 
             _activeMap = _mapLoader.LoadMap(CurrentMap);
