@@ -1,21 +1,22 @@
 ﻿using System.IO;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RetroRedo.Content
 {
-    public class ContentChest : IContentChest
+    public class ContentChest
     {
         private const string RootDirectory = "Content";
-        private ContentManager _contentManager;
+        private static ContentManager _contentManager;
 
-        public void SetContentManager(ContentManager contentManager)
+        public static void SetContentManager(ContentManager contentManager)
         {
             _contentManager = contentManager;
             _contentManager.RootDirectory = "Content";
         }
 
-        public void Load()
+        public static void Load()
         {
             // Images
             _contentManager.Load<Texture2D>(Path.Combine("Images", "splash"));
@@ -25,8 +26,11 @@ namespace RetroRedo.Content
             // Fonts
             _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "MainFont"));
             _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "TitleFont"));
+            
+            // Sounds
+            _contentManager.Load<SoundEffect>(Path.Combine("Sounds", "Walk"));
         }
 
-        public T Get<T>(string name) => _contentManager.Load<T>(name);
+        public static T Get<T>(string name) => _contentManager.Load<T>(name);
     }
 }

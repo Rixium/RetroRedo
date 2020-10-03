@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Autofac;
 using RetroRedo.Components;
 using RetroRedo.Entities;
 
@@ -9,6 +8,7 @@ namespace RetroRedo.Screen
     {
         void AddEntities(IList<IEntity> entities);
         IList<IEntity> GetHistoricalEntities();
+        void Reset();
     }
 
     public class MapEntityHistoryService : IMapEntityHistoryService
@@ -20,10 +20,11 @@ namespace RetroRedo.Screen
             foreach (var entity in entities)
             {
                 _historicalEntities.Add(entity);
-                entity.AddComponent(Program.Container.Resolve<AutoCommandComponent>());
+                entity.AddComponent(new AutoCommandComponent());
             }
         }
 
         public IList<IEntity> GetHistoricalEntities() => _historicalEntities;
+        public void Reset() => _historicalEntities.Clear();
     }
 }

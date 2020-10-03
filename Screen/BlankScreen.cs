@@ -8,14 +8,14 @@ namespace RetroRedo.Screen
         public ScreenType ScreenType => ScreenType.None;
 
         public bool Ended => true;
-        public Action<ScreenType> RequestScreenChange { get; set; }
+        public Action<IScreen> RequestScreenChange { get; set; }
 
         public void Begin()
         {
             // Does nothing
         }
 
-        public void Update()
+        public void Update(float delta)
         {
             // Does nothing
         }

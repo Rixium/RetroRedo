@@ -7,9 +7,9 @@ namespace RetroRedo.Screen
     {
         ScreenType ScreenType { get; }     
         bool Ended { get; }
-        Action<ScreenType> RequestScreenChange { get; set; }
+        Action<IScreen> RequestScreenChange { get; set; }
         void Begin();
-        void Update();
+        void Update(float delta);
         void Render(SpriteBatch spriteBatch);
         void FadedOut();
     }

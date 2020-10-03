@@ -1,47 +1,58 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using RetroRedo.Commands;
 using RetroRedo.Entities;
-using RetroRedo.Input;
 using RetroRedo.Services;
 
 namespace RetroRedo.Components
 {
     public class PlayerMovementComponent : IComponent
     {
-        private readonly IInputService _inputService;
-        private readonly ITurnService _turnService;
-
+        
         public IEntity Entity { get; set; }
-
-        public PlayerMovementComponent(IInputService inputService, ITurnService turnService)
-        {
-            _inputService = inputService;
-            _turnService = turnService;
-        }
 
         public void Begin()
         {
-            _inputService.OnKeyPressed(Keys.D, () =>
+            Game1.Input.OnKeyPressed(Keys.D, () =>
             {
-                DoCommand(new MoveCommand(1, 0));
+                var map = Entity.CurrentMap;
+
+                if (map.TileIsOpen(Entity.X + 1, Entity.Y))
+                {
+                    DoCommand(new MoveCommand(1, 0));
+                }
             });
             
-            _inputService.OnKeyPressed(Keys.A, () =>
+            Game1.Input.OnKeyPressed(Keys.A, () =>
             {
-                DoCommand(new MoveCommand(-1, 0));
+                var map = Entity.CurrentMap;
+
+                if (map.TileIsOpen(Entity.X - 1, Entity.Y))
+                {
+                    DoCommand(new MoveCommand(-1, 0));
+                }
             });
             
-            _inputService.OnKeyPressed(Keys.S, () =>
+            Game1.Input.OnKeyPressed(Keys.S, () =>
             {
-                DoCommand(new MoveCommand(0, 1));
+                var map = Entity.CurrentMap;
+
+                if (map.TileIsOpen(Entity.X, Entity.Y + 1))
+                {
+                    DoCommand(new MoveCommand(0, 1));
+                }
             });
             
-            _inputService.OnKeyPressed(Keys.W, () =>
+            Game1.Input.OnKeyPressed(Keys.W, () =>
             {
-                DoCommand(new MoveCommand(0, -1));
+                var map = Entity.CurrentMap;
+
+                if (map.TileIsOpen(Entity.X, Entity.Y - 1))
+                {
+                    DoCommand(new MoveCommand(0, -1));
+                }
             });
             
-            _inputService.OnKeyPressed(Keys.Space, () =>
+            Game1.Input.OnKeyPressed(Keys.Space, () =>
             { 
                 DoCommand(new WaitCommand());
             });
@@ -51,7 +62,7 @@ namespace RetroRedo.Components
         {
             var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
             commandSetComponent.PushCommand(command);
-            _turnService.PlayersTurn = false;
+            TurnService.PlayersTurn = false;
         }
 
         public void Update()

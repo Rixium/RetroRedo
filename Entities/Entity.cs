@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RetroRedo.Components;
+using RetroRedo.Maps;
 
 namespace RetroRedo.Entities
 {
@@ -9,6 +10,7 @@ namespace RetroRedo.Entities
         public int X { get; set; }
         public int Y { get; set; }
         public IList<IComponent> Components { get; } = new List<IComponent>();
+        public Map CurrentMap { get; set; }
 
         public virtual void Update()
         {

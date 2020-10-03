@@ -6,8 +6,8 @@ namespace RetroRedo.Screen
     {
         IScreen CurrentScreen { get; }
         IScreen NextScreen { get; }
-        void SetNextScreen(ScreenType screenType);
-        void UpdateScreen();
+        void SetNextScreen(IScreen screenType);
+        void UpdateScreen(float delta);
         void RenderScreen(SpriteBatch spriteBatch);
     }
 }

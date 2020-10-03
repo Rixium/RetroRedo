@@ -1,7 +1,7 @@
 ﻿namespace RetroRedo.Services
 {
-    public class TurnService : ITurnService
+    public class TurnService
     {
-        public bool PlayersTurn { get; set; }
+        public static bool PlayersTurn { get; set; }
     }
 }

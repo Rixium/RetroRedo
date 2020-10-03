@@ -19,16 +19,20 @@ namespace RetroRedo.Maps
         {
             foreach (var entity in Entities)
             {
+                entity.CurrentMap = this;
                 entity.Begin();
             }
-            
+
+            Player.CurrentMap = this;
             Player.Begin();
         }
 
-        public void AddEntities(IList<IEntity> oldEntities)
+        public bool TileIsOpen(int x, int y)
         {
-            foreach (var entity in oldEntities) Entities.Add(entity);
+            if (x < 0 || y < 0 || x >= MapWidth || y >= MapHeight) return false;
+            return !Tiles[x, y].Collidable;
         }
-        
+
+        public Tile GetPlayerTile() => Tiles[Player.X, Player.Y];
     }
 }

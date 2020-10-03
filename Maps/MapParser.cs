@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using RetroRedo.Components;
 using RetroRedo.Data;
 using RetroRedo.Entities;
@@ -41,11 +40,11 @@ namespace RetroRedo.Maps
                         .Equals("playerStart", StringComparison.OrdinalIgnoreCase));
 
             var player =
-                new Player((int) playerStartPosition.X / tiledMap.TileWidth - 1,
-                    (int) playerStartPosition.Y / tiledMap.TileHeight - 1);
+                new Player((int) playerStartPosition.X / tiledMap.TileWidth,
+                    (int) playerStartPosition.Y / tiledMap.TileHeight);
 
-            player.AddComponent(Program.Container.Resolve<PlayerMovementComponent>());
-            player.AddComponent(Program.Container.Resolve<CommandSetComponent>());
+            player.AddComponent(new PlayerMovementComponent());
+            player.AddComponent(new CommandSetComponent());
 
             var entities = new List<IEntity>();
 
@@ -54,7 +53,12 @@ namespace RetroRedo.Maps
 
         private static Tile[,] ParseTiles(TiledMap tiledMap)
         {
-            var tileLayer = tiledMap.Layers.First(x => x.Name.Equals("Tiles", StringComparison.OrdinalIgnoreCase));
+            var tileLayer = tiledMap.Layers.First(x => x.Name.Equals("tiles", StringComparison.OrdinalIgnoreCase));
+            var collidableLayer =
+                tiledMap.Layers.First(x => x.Name.Equals("collidable", StringComparison.OrdinalIgnoreCase));
+            var winLayer =
+                tiledMap.Layers.First(x => x.Name.Equals("win", StringComparison.OrdinalIgnoreCase));
+
             var tileLayerHeight = tileLayer.Height;
             var tileLayerWidth = tileLayer.Width;
             var tiles = new Tile[tileLayerWidth, tileLayerHeight];
@@ -62,12 +66,24 @@ namespace RetroRedo.Maps
             for (var i = 0; i < tileLayer.Data.Length; i++)
             {
                 var tileId = tileLayer.Data[i] - 1;
+                var winId = winLayer.Data[i];
+                var collideId = collidableLayer.Data[i];
 
                 var x = i % tileLayerWidth;
                 var y = i / tileLayerHeight;
 
                 var tile = new Tile(tileId, x, y);
                 tiles[x, y] = tile;
+
+                if (winId != 0)
+                {
+                    tiles[x, y].IsWin = true;
+                }
+
+                if (collideId != 0)
+                {
+                    tiles[x, y].Collidable = true;
+                }
             }
 
             return tiles;

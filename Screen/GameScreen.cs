@@ -1,55 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RetroRedo.Components;
 using RetroRedo.Content;
 using RetroRedo.Entities;
-using RetroRedo.Input;
 using RetroRedo.Maps;
 using RetroRedo.Services;
+using RetroRedo.Window;
 
 namespace RetroRedo.Screen
 {
+
     public class GameScreen : IScreen
     {
-        private readonly IContentChest _contentChest;
-        private readonly IGameStateService _gameStateService;
-        private readonly IMapLoader _mapLoader;
-        private readonly IMapRenderer _mapRenderer;
-        private readonly IInputService _inputService;
-        private readonly IMapEntityHistoryService _mapEntityHistoryService;
-        private readonly ITurnService _turnService;
+        public static int CurrentMap = 1;
+        public static int MapRefreshes = 0;
+        
+        private readonly MapLoader _mapLoader;
+        private readonly MapRenderer _mapRenderer;
+        private readonly MapEntityHistoryService _mapEntityHistoryService;
 
         private Map _activeMap;
 
         public ScreenType ScreenType => ScreenType.Game;
         public bool Ended { get; private set; }
-        public Action<ScreenType> RequestScreenChange { get; set; }
+        public Action<IScreen> RequestScreenChange { get; set; }
 
-        public GameScreen(IContentChest contentChest, IGameStateService gameStateService, IMapLoader mapLoader,
-            IMapRenderer mapRenderer, IInputService inputService, IMapEntityHistoryService mapEntityHistoryService, ITurnService turnService)
+        public GameScreen()
         {
-            _contentChest = contentChest;
-            _gameStateService = gameStateService;
-            _mapLoader = mapLoader;
-            _mapRenderer = mapRenderer;
-            _inputService = inputService;
-            _mapEntityHistoryService = mapEntityHistoryService;
-            _turnService = turnService;
+            _mapLoader = new MapLoader(new MapParser());
+            _mapRenderer = new MapRenderer();
+            _mapEntityHistoryService = new MapEntityHistoryService();
         }
 
         public void Begin()
         {
-            Ended = false;
-            
-            var activeMapId = _gameStateService.CurrentLevel;
-            _activeMap = _mapLoader.LoadMap(activeMapId);
+            _activeMap = _mapLoader.LoadMap(CurrentMap);
             _mapRenderer.SetMap(_activeMap);
-            
-            _inputService.OnKeyPressed(Keys.X, ResetMap);
-            _turnService.PlayersTurn = true;
+
+            Game1.Input.OnKeyPressed(Keys.X, ResetMap);
+            TurnService.PlayersTurn = true;
 
             foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
             {
@@ -57,17 +50,28 @@ namespace RetroRedo.Screen
             }
             
             _activeMap.Begin();
+            
+            Ended = false;
         }
 
         private void ResetMap()
         {
-            _inputService.Reset();
+            foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
+            {
+                var autoCommandComponent = entity.GetComponent<AutoCommandComponent>();
+                autoCommandComponent.ForceFinish();
+            }
+
+            MapRefreshes++;
+            SaveHistoricalEntities();
+            
+            Game1.Input.Reset();
             Ended = true;
-            RequestScreenChange?.Invoke(ScreenType.Game);
+            RequestScreenChange?.Invoke(new GameScreen());
         }
 
         private void SaveHistoricalEntities()
-        {            
+        {
             var oldEntities = new List<IEntity>();
 
             foreach (var entity in _activeMap.Entities)
@@ -82,9 +86,11 @@ namespace RetroRedo.Screen
             _mapEntityHistoryService.AddEntities(oldEntities);
         }
 
-        public void Update()
+        public void Update(float delta)
         {
-            if (_turnService.PlayersTurn)
+            if (Ended) return;
+
+            if (TurnService.PlayersTurn)
             {
                 _activeMap.Player.Update();
             }
@@ -100,19 +106,46 @@ namespace RetroRedo.Screen
                     entity.Update();
                 }
 
-                _turnService.PlayersTurn = true;
+                EndTurn();
             }
+        }
+
+        private void EndTurn()
+        {
+            if (_activeMap.GetPlayerTile().IsWin)
+            {
+                EndLevel();
+            }
+
+            TurnService.PlayersTurn = true;
+        }
+
+        private void EndLevel()
+        {
+            ContentChest.Get<SoundEffect>("Sounds/Clap").Play();
+            _mapEntityHistoryService.Reset();
+            Game1.Input.Reset();
+            TurnService.PlayersTurn = true;
+            CurrentMap++;
+            RequestScreenChange?.Invoke(new MapTransitionScreen());
+            Ended = true;
         }
 
         public void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
-            spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"), new Rectangle(0, 0, 1280, 720),
+            spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"), new Rectangle(0, 0, 1280, 720),
                 new Color(9, 22, 48));
 
-            spriteBatch.DrawString(_contentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
+            spriteBatch.DrawString(ContentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
                 new Vector2(40, 40), Color.White);
+
+            var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
+            spriteBatch.DrawString(font, $"Redos: {MapRefreshes}",
+                new Vector2(40,
+                    WindowSettings.WindowHeight - font.MeasureString($"{MapRefreshes}").Y - 40),
+                Color.White);
 
             _mapRenderer.Render(spriteBatch, _mapEntityHistoryService.GetHistoricalEntities());
 
@@ -121,13 +154,7 @@ namespace RetroRedo.Screen
 
         public void FadedOut()
         {
-            foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
-            {
-                var autoCommandComponent = entity.GetComponent<AutoCommandComponent>();
-                autoCommandComponent.ForceFinish();
-            }
-            
-            SaveHistoricalEntities();
+
         }
 
         public bool Stop { get; set; }

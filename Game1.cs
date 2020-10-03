@@ -9,58 +9,56 @@ namespace RetroRedo
 {
     public class Game1 : Game
     {
-        private readonly IWindowSettings _windowSettings;
-        private readonly IContentChest _contentChest;
+        public static IInputService Input;
+
         private readonly IScreenService _screenService;
-        private readonly IInputService _inputService;
         private readonly IGameTimeService _gameTimeService;
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1(IWindowSettings windowSettings, IContentChest contentChest, IScreenService screenService, IInputService inputService, IGameTimeService gameTimeService)
+        public Game1()
         {
-            _windowSettings = windowSettings;
-            _contentChest = contentChest;
-            _screenService = screenService;
-            _inputService = inputService;
-            _gameTimeService = gameTimeService;
+            Input = new InputService();
+            
+            _screenService = new ScreenService();
+            _gameTimeService = new GameTimeService();
             _graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            _screenService.SetNextScreen(ScreenType.MainMenu);
-            
+            _screenService.SetNextScreen(new SplashScreen());
             base.Initialize();
         }
-        
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _graphics.PreferredBackBufferWidth = _windowSettings.WindowWidth;
-            _graphics.PreferredBackBufferHeight = _windowSettings.WindowHeight;
+            _graphics.PreferredBackBufferWidth = WindowSettings.WindowWidth;
+            _graphics.PreferredBackBufferHeight = WindowSettings.WindowHeight;
             _graphics.ApplyChanges();
 
-            _contentChest.SetContentManager(Content);
-            _contentChest.Load();
+            ContentChest.SetContentManager(Content);
+            ContentChest.Load();
         }
 
         protected override void Update(GameTime gameTime)
         {
             _gameTimeService.Update(gameTime);
-            _inputService.Update();
-            _screenService.UpdateScreen();
+            Input.Update();
+            
+            _screenService.UpdateScreen(_gameTimeService.DeltaTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
+
             _screenService.RenderScreen(_spriteBatch);
-            
+
             base.Draw(gameTime);
         }
     }

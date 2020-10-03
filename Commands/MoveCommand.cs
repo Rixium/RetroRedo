@@ -1,4 +1,6 @@
-﻿using RetroRedo.Entities;
+﻿using Microsoft.Xna.Framework.Audio;
+using RetroRedo.Content;
+using RetroRedo.Entities;
 
 namespace RetroRedo.Commands
 {
@@ -17,6 +19,7 @@ namespace RetroRedo.Commands
         {
             entity.X += _xChange;
             entity.Y += _yChange;
+            ContentChest.Get<SoundEffect>("Sounds/Walk").Play();
         }
 
         public void Undo(IEntity entity)

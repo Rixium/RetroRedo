@@ -11,16 +11,8 @@ namespace RetroRedo.Maps
     {
         private const int TileRenderSize = 32;
         private const int ActualTileSize = 16;
-
-        private readonly IContentChest _contentChest;
-        private readonly IWindowSettings _windowSettings;
+        
         private Map _map;
-
-        public MapRenderer(IContentChest contentChest, IWindowSettings windowSettings)
-        {
-            _contentChest = contentChest;
-            _windowSettings = windowSettings;
-        }
 
         public void SetMap(Map map) => _map = map;
 
@@ -31,8 +23,8 @@ namespace RetroRedo.Maps
                 return;
             }
 
-            var tileSet = _contentChest.Get<Texture2D>("Images/tiles_1");
-            var screenCenter = _windowSettings.Center;
+            var tileSet = ContentChest.Get<Texture2D>("Images/tiles_1");
+            var screenCenter = WindowSettings.Center;
             var mapWidthInPixels = _map.MapWidth * TileRenderSize;
             var mapHeightInPixels = _map.MapHeight * TileRenderSize;
             var mapRenderPoint = screenCenter - new Vector2(mapWidthInPixels / 2.0f, mapHeightInPixels / 2.0f);
@@ -52,7 +44,7 @@ namespace RetroRedo.Maps
 
             foreach (var entity in _map.Entities)
             {
-                spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
                     new Rectangle(
                         (int) (mapRenderPoint.X + entity.X * TileRenderSize),
                         (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
@@ -63,7 +55,7 @@ namespace RetroRedo.Maps
             
             foreach (var entity in historical)
             {
-                spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
                     new Rectangle(
                         (int) (mapRenderPoint.X + entity.X * TileRenderSize),
                         (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
@@ -72,7 +64,7 @@ namespace RetroRedo.Maps
                     Color.White);
             }
             
-            spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+            spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
                 new Rectangle(
                     (int) (mapRenderPoint.X + _map.Player.X * TileRenderSize),
                     (int) (mapRenderPoint.Y + _map.Player.Y * TileRenderSize),

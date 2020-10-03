@@ -66,3 +66,15 @@
 /processorParam:TextureFormat=Color
 /build:Images/tiles_1.png
 
+#begin Sounds/clap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/clap.wav
+
+#begin Sounds/walk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/walk.wav
+
