@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RetroRedo.Data
+﻿namespace RetroRedo.Data
 {
     public class TiledMapObject
     {
@@ -10,6 +8,6 @@ namespace RetroRedo.Data
         public string Name { get; set; }
         public string Type { get; set; }
 
-        public IList<TiledMapProperty> Properties { get; set; }
+        public TiledMapProperty[] Properties { get; set; }
     }
 }

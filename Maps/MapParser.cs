@@ -93,7 +93,7 @@ namespace RetroRedo.Maps
                 var collideId = collidableLayer.Data[i];
 
                 var x = i % tileLayerWidth;
-                var y = i / tileLayerHeight;
+                var y = i / tileLayerWidth;
 
                 var tile = new Tile(tileId, x, y);
                 tiles[x, y] = tile;
