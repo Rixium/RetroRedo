@@ -2,7 +2,7 @@
 
 namespace RetroRedo.Screen
 {
-    class GameTimeService : IGameTimeService
+    public class GameTimeService : IGameTimeService
     {
         public float DeltaTime { get; private set; }
 
