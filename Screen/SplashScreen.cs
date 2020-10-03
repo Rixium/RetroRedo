@@ -3,6 +3,7 @@ using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
+using RetroRedo.Maps;
 
 namespace RetroRedo.Screen
 {
@@ -10,12 +11,17 @@ namespace RetroRedo.Screen
     {
         private const int MillisecondsToShowFor = 3000;
         private readonly IContentChest _contentChest;
-        
+        private readonly IMapLoader _mapLoader;
+
         public ScreenType ScreenType => ScreenType.Splash;
         public bool Ended { get; set; }
         public Action<ScreenType> RequestScreenChange { get; set; }
 
-        public SplashScreen(IContentChest contentChest) => _contentChest = contentChest;
+        public SplashScreen(IContentChest contentChest, IMapLoader mapLoader)
+        {
+            _contentChest = contentChest;
+            _mapLoader = mapLoader;
+        }
 
         public void Begin()
         {
@@ -32,6 +38,7 @@ namespace RetroRedo.Screen
             };
 
             timer.Start();
+            _mapLoader.LoadAll();
         }
 
         public void Update()

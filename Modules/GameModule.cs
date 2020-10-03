@@ -1,22 +1,31 @@
 ﻿using Autofac;
 using RetroRedo.Content;
 using RetroRedo.Input;
+using RetroRedo.Maps;
 using RetroRedo.Screen;
 using RetroRedo.Window;
 
 namespace RetroRedo.Modules
 {
-    public class GameModule : Module {
+    public class GameModule : Module
+    {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ContentChest>().As<IContentChest>().InstancePerLifetimeScope();
             builder.RegisterType<ScreenProvider>().As<IScreenProvider>().InstancePerLifetimeScope();
             builder.RegisterType<WindowSettings>().As<IWindowSettings>().InstancePerLifetimeScope();
 
+            RegisterContentLoaders(builder);
             RegisterServices(builder);
             RegisterScreenTypes(builder);
-            
+
             base.Load(builder);
+        }
+
+        private void RegisterContentLoaders(ContainerBuilder builder)
+        {
+            builder.RegisterType<ContentChest>().As<IContentChest>().InstancePerLifetimeScope();
+            builder.RegisterType<MapLoader>().As<IMapLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<MapStore>().As<IMapStore>();
         }
 
         private static void RegisterServices(ContainerBuilder builder)
