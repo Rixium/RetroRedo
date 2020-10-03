@@ -1,0 +1,46 @@
+{ "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"map_1.json"
+        }
+    },
+ "height":10,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 21, 22, 22, 22, 22, 22, 22, 22, 22, 23, 41, 42, 42, 42, 42, 42, 42, 42, 42, 43],
+         "height":10,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "properties":[
+        {
+         "name":"Name",
+         "type":"string",
+         "value":"Walk Walk Win"
+        }],
+ "renderorder":"right-down",
+ "tiledversion":"1.4.2",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/..\/..\/..\/Users\/daniel.pottenger\/Tiles_1.tsx"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":1.4,
+ "width":10
+}
