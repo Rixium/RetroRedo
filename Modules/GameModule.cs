@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using RetroRedo.Content;
 using RetroRedo.Input;
 using RetroRedo.Maps;
@@ -32,6 +32,7 @@ namespace RetroRedo.Modules
             builder.RegisterType<ScreenService>().As<IScreenService>().InstancePerLifetimeScope();
             builder.RegisterType<InputService>().As<IInputService>().InstancePerLifetimeScope();
             builder.RegisterType<GameTimeService>().As<IGameTimeService>().InstancePerLifetimeScope();
+            builder.RegisterType<GameStateService>().As<IGameStateService>().InstancePerLifetimeScope();
         }
 
         private static void RegisterScreenTypes(ContainerBuilder builder)
