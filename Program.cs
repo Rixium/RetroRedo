@@ -7,6 +7,8 @@ namespace RetroRedo
 {
     public static class Program
     {
+        public static ILifetimeScope Container;
+
         [STAThread]
         public static void Main()
         {
@@ -15,12 +17,11 @@ namespace RetroRedo
             containerBuilder.RegisterModule<GameModule>();
             var container = containerBuilder.Build();
 
-            var scope = container.BeginLifetimeScope();
-            var game = scope.Resolve<Game>();
+            Container = container.BeginLifetimeScope();
+            var game = Container.Resolve<Game>();
             game.Run();
-
             game.Dispose();
-            scope.Dispose();
+            Container.Dispose();
         }
     }
 }
