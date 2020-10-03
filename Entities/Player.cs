@@ -1,14 +1,16 @@
 ﻿namespace RetroRedo.Entities
 {
-    public class Player : IEntity
+    public class Player : Entity
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        
         public Player(int x, int y)
         {
             X = x;
             Y = y;
+        }
+        
+        public override void Update()
+        {
+            base.Update();
         }
     }
 }
