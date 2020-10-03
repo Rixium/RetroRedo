@@ -42,6 +42,12 @@ namespace RetroRedo.Components
                 commandSetComponent.PushCommand(new MoveCommand(0, -1));
             });
             
+            _inputService.OnKeyPressed(Keys.Space, () =>
+            {
+                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
+                commandSetComponent.PushCommand(new WaitCommand());
+            });
+            
             _inputService.OnKeyPressed(Keys.Z, () =>
             {
                 var commandSetComponent = Entity.GetComponent<CommandSetComponent>();

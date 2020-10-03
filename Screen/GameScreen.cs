@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RetroRedo.Components;
 using RetroRedo.Content;
+using RetroRedo.Entities;
 using RetroRedo.Input;
 using RetroRedo.Maps;
 
@@ -15,6 +18,7 @@ namespace RetroRedo.Screen
         private readonly IMapLoader _mapLoader;
         private readonly IMapRenderer _mapRenderer;
         private readonly IInputService _inputService;
+        private readonly IMapEntityHistoryService _mapEntityHistoryService;
 
         private Map _activeMap;
 
@@ -23,13 +27,14 @@ namespace RetroRedo.Screen
         public Action<ScreenType> RequestScreenChange { get; set; }
 
         public GameScreen(IContentChest contentChest, IGameStateService gameStateService, IMapLoader mapLoader,
-            IMapRenderer mapRenderer, IInputService inputService)
+            IMapRenderer mapRenderer, IInputService inputService, IMapEntityHistoryService mapEntityHistoryService)
         {
             _contentChest = contentChest;
             _gameStateService = gameStateService;
             _mapLoader = mapLoader;
             _mapRenderer = mapRenderer;
             _inputService = inputService;
+            _mapEntityHistoryService = mapEntityHistoryService;
         }
 
         public void Begin()
@@ -40,14 +45,31 @@ namespace RetroRedo.Screen
             _activeMap = _mapLoader.LoadMap(activeMapId);
             _mapRenderer.SetMap(_activeMap);
             
-            _inputService.OnKeyPressed(Keys.X, () =>
-            {
-                _inputService.Reset();
-                Ended = true;
-                RequestScreenChange?.Invoke(ScreenType.Game);
-            });
+            _inputService.OnKeyPressed(Keys.X, ResetMap);
 
+            var oldEntities = _mapEntityHistoryService.GetHistoricalEntities();
+            _activeMap.AddEntities(oldEntities);
+            
             _activeMap.Begin();
+        }
+
+        private void ResetMap()
+        {
+            var oldEntities = new List<IEntity>();
+
+            foreach (var entity in _activeMap.Entities)
+            {
+                var entitiesCommandSet = entity.GetComponent<CommandSetComponent>();
+                if (entitiesCommandSet == null) continue;
+                entitiesCommandSet.UndoAll();
+                oldEntities.Add(entity);
+            }
+            
+            _mapEntityHistoryService.AddEntities(oldEntities);
+                
+            _inputService.Reset();
+            Ended = true;
+            RequestScreenChange?.Invoke(ScreenType.Game);
         }
 
         public void Update()

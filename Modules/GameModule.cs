@@ -43,6 +43,7 @@ namespace RetroRedo.Modules
             builder.RegisterType<InputService>().As<IInputService>().SingleInstance();
             builder.RegisterType<GameTimeService>().As<IGameTimeService>().SingleInstance();
             builder.RegisterType<GameStateService>().As<IGameStateService>().InstancePerLifetimeScope();
+            builder.RegisterType<MapEntityHistoryService>().As<IMapEntityHistoryService>().InstancePerDependency();
         }
 
         private static void RegisterScreenTypes(ContainerBuilder builder)

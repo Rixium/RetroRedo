@@ -9,11 +9,10 @@ namespace RetroRedo.Components
         public IEntity Entity { get; set; }
 
         private readonly Queue<ICommand> _commandQueue = new Queue<ICommand>();
-        private readonly Stack<ICommand> _commandStack = new Stack<ICommand>();
-        
+        private Stack<ICommand> _commandStack = new Stack<ICommand>();
+
         public void Begin()
         {
-            
         }
 
         public void Update()
@@ -32,6 +31,17 @@ namespace RetroRedo.Components
         {
             _commandStack.TryPop(out var lastCommand);
             lastCommand?.Undo(Entity);
+        }
+
+        public void UndoAll()
+        {
+            while (_commandStack.Count > 0)
+            {
+                var currentCommand = _commandStack.Pop();
+                currentCommand.Undo(Entity);
+            }
+
+            _commandStack = new Stack<ICommand>();
         }
     }
 }

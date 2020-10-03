@@ -21,5 +21,10 @@ namespace RetroRedo.Maps
                 entity.Begin();
             }
         }
+
+        public void AddEntities(IList<IEntity> oldEntities)
+        {
+            foreach (var entity in oldEntities) Entities.Add(entity);
+        }
     }
 }
