@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System.IO;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RetroRedo.Content
@@ -16,8 +17,12 @@ namespace RetroRedo.Content
         
         public void Load()
         {
-            _contentManager.Load<Texture2D>("Images/splash");
-            _contentManager.Load<SpriteFont>("Fonts/MainFont");
+            // Images
+            _contentManager.Load<Texture2D>(Path.Combine("Images", "splash"));
+            
+            // Fonts
+            _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "MainFont"));
+            _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "TitleFont"));
         }
 
         public T Get<T>(string name) => _contentManager.Load<T>(name);

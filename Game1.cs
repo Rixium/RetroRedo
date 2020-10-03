@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
+using RetroRedo.Input;
 using RetroRedo.Screen;
 using RetroRedo.Window;
 
@@ -11,14 +12,16 @@ namespace RetroRedo
         private readonly IWindowSettings _windowSettings;
         private readonly IContentChest _contentChest;
         private readonly IScreenService _screenService;
+        private readonly IInputService _inputService;
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1(IWindowSettings windowSettings, IContentChest contentChest, IScreenService screenService)
+        public Game1(IWindowSettings windowSettings, IContentChest contentChest, IScreenService screenService, IInputService inputService)
         {
             _windowSettings = windowSettings;
             _contentChest = contentChest;
             _screenService = screenService;
+            _inputService = inputService;
             _graphics = new GraphicsDeviceManager(this);
             IsMouseVisible = true;
         }
@@ -44,6 +47,7 @@ namespace RetroRedo
 
         protected override void Update(GameTime gameTime)
         {
+            _inputService.Update();
             _screenService.UpdateScreen();
             base.Update(gameTime);
         }
