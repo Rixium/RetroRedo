@@ -25,7 +25,6 @@ namespace RetroRedo.Modules
         {
             builder.RegisterType<ContentChest>().As<IContentChest>().InstancePerLifetimeScope();
             builder.RegisterType<MapLoader>().As<IMapLoader>().InstancePerLifetimeScope();
-            builder.RegisterType<MapStore>().As<IMapStore>();
         }
 
         private static void RegisterServices(ContainerBuilder builder)
