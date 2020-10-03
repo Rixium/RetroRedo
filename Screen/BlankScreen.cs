@@ -25,5 +25,9 @@ namespace RetroRedo.Screen
             // Does nothing
         }
 
+        public void FadedOut()
+        {
+            
+        }
     }
 }

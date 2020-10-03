@@ -52,5 +52,10 @@ namespace RetroRedo.Screen
                 Color.White);
             spriteBatch.End();
         }
+
+        public void FadedOut()
+        {
+            
+        }
     }
 }

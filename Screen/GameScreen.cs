@@ -61,13 +61,6 @@ namespace RetroRedo.Screen
 
         private void ResetMap()
         {
-            foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
-            {
-                var autoCommandComponent = entity.GetComponent<AutoCommandComponent>();
-                autoCommandComponent.ForceFinish();
-            }
-            
-            SaveHistoricalEntities();
             _inputService.Reset();
             Ended = true;
             RequestScreenChange?.Invoke(ScreenType.Game);
@@ -124,6 +117,17 @@ namespace RetroRedo.Screen
             _mapRenderer.Render(spriteBatch, _mapEntityHistoryService.GetHistoricalEntities());
 
             spriteBatch.End();
+        }
+
+        public void FadedOut()
+        {
+            foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
+            {
+                var autoCommandComponent = entity.GetComponent<AutoCommandComponent>();
+                autoCommandComponent.ForceFinish();
+            }
+            
+            SaveHistoricalEntities();
         }
 
         public bool Stop { get; set; }

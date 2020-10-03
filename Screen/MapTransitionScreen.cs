@@ -67,5 +67,10 @@ namespace RetroRedo.Screen
             spriteBatch.DrawString(_mapNameFont, _mapName, _windowSettings.Center - _mapNameSize / 2, Color.White);
             spriteBatch.End();
         }
+
+        public void FadedOut()
+        {
+            
+        }
     }
 }

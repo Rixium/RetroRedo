@@ -11,5 +11,6 @@ namespace RetroRedo.Screen
         void Begin();
         void Update();
         void Render(SpriteBatch spriteBatch);
+        void FadedOut();
     }
 }

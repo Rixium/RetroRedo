@@ -5,8 +5,6 @@ using Autofac;
 using RetroRedo.Components;
 using RetroRedo.Data;
 using RetroRedo.Entities;
-using RetroRedo.Input;
-using RetroRedo.Services;
 
 namespace RetroRedo.Maps
 {
@@ -46,9 +44,8 @@ namespace RetroRedo.Maps
                 new Player((int) playerStartPosition.X / tiledMap.TileWidth - 1,
                     (int) playerStartPosition.Y / tiledMap.TileHeight - 1);
 
-            player.AddComponent(new PlayerMovementComponent(Program.Container.Resolve<IInputService>(),
-                Program.Container.Resolve<ITurnService>()));
-            player.AddComponent(new CommandSetComponent());
+            player.AddComponent(Program.Container.Resolve<PlayerMovementComponent>());
+            player.AddComponent(Program.Container.Resolve<CommandSetComponent>());
 
             var entities = new List<IEntity>();
 

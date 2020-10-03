@@ -58,6 +58,7 @@ namespace RetroRedo.Screen
                 if (_currentTransitionAlpha >= 1)
                 {
                     _transitioningOut = false;
+                    _currentScreen?.FadedOut();
                     GoToNextScreen();
                     _transitioningIn = true;
                 }

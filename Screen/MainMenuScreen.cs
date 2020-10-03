@@ -65,5 +65,10 @@ namespace RetroRedo.Screen
 
             spriteBatch.End();
         }
+
+        public void FadedOut()
+        {
+            
+        }
     }
 }
