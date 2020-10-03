@@ -18,13 +18,15 @@ namespace RetroRedo.Screen
     public class GameScreen : IScreen
     {
         private Camera _camera = new Camera();
+
+        private static int CurrentMapHistoryState = CurrentMap;
+        private static MapEntityHistoryService _mapEntityHistoryService;
         
         public static int CurrentMap = 1;
         public static int MapRefreshes = 0;
         
         private readonly MapLoader _mapLoader;
         private readonly MapRenderer _mapRenderer;
-        private readonly MapEntityHistoryService _mapEntityHistoryService;
 
         private Map _activeMap;
 
@@ -36,8 +38,13 @@ namespace RetroRedo.Screen
         {
             _mapLoader = new MapLoader(new MapParser());
             _mapRenderer = new MapRenderer();
-            _mapEntityHistoryService = new MapEntityHistoryService();
-            
+
+            if (CurrentMap > CurrentMapHistoryState)
+            {
+                CurrentMapHistoryState = CurrentMap;
+                _mapEntityHistoryService = new MapEntityHistoryService();
+            }
+
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(ContentChest.Get<Song>("Music/background"));
@@ -54,6 +61,7 @@ namespace RetroRedo.Screen
 
             foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
             {
+                entity.CurrentMap = _activeMap;
                 entity.Begin();
             }
             
@@ -85,17 +93,11 @@ namespace RetroRedo.Screen
 
         private void SaveHistoricalEntities()
         {
-            var oldEntities = new List<IEntity>();
-
-            foreach (var entity in _activeMap.Entities)
+            var oldEntities = new List<IEntity>
             {
-                var entitiesCommandSet = entity.GetComponent<CommandSetComponent>();
-                if (entitiesCommandSet == null) continue;
-                oldEntities.Add(entity);
-            }
-
-            oldEntities.Add(_activeMap.Player);
-
+                _activeMap.Player
+            };
+            
             _mapEntityHistoryService.AddEntities(oldEntities);
         }
 

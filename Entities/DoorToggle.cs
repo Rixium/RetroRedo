@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
 
@@ -20,14 +21,18 @@ namespace RetroRedo.Entities
         {
             if (_steppedOn) return;
             
-            var doors = CurrentMap.Entities.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == _doorId);
+            var doors = 
+                CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == _doorId);
 
+            if (doors == null) return;
+            
             foreach (var entity in doors)
             {
                 var door = (Door) entity;
                 door.Toggle();
             }
 
+            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
             _steppedOn = true;
         }
 

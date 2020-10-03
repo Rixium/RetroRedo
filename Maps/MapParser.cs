@@ -60,7 +60,13 @@ namespace RetroRedo.Maps
                         entities.Add(new DoorToggle(tileX, tileY, int.Parse(entityObject.Name)));
                     } else if (entityObject.Type.Equals("Door", StringComparison.OrdinalIgnoreCase))
                     {
-                        entities.Add(new Door(tileX, tileY, int.Parse(entityObject.Name)));
+                        var doorStatus = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Blocking"));
+                        var blocking = bool.Parse(doorStatus?.Value ?? "false");
+                        entities.Add(
+                            new Door(tileX, tileY, int.Parse(entityObject.Name))
+                            {
+                                Blocking = blocking
+                            });
                     }
                 }
             }
