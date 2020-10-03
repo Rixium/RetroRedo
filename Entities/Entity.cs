@@ -57,5 +57,17 @@ namespace RetroRedo.Entities
         {
             
         }
+
+        public void Wait()
+        {
+            foreach (var entity in CurrentMap.Entities)
+            {
+                if (entity.GetType() == typeof(WaitDoor))
+                {
+                    var waitDoor = (WaitDoor) entity;
+                    waitDoor.Tick();
+                }
+            }
+        }
     }
 }

@@ -174,8 +174,9 @@ namespace RetroRedo.Screen
             
             // UI
             spriteBatch.Begin();
-            spriteBatch.DrawString(ContentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
-                new Vector2(40, 40), Color.White);
+            var titlefont = ContentChest.Get<SpriteFont>("Fonts/TitleFont");
+            spriteBatch.DrawString(titlefont, _activeMap.Name, 
+                new Vector2(1, 0) * WindowSettings.Center + new Vector2(0, 70) - titlefont.MeasureString(_activeMap.Name) / 2.0f, Color.White);
 
             var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
             spriteBatch.DrawString(font, $"Redos: {MapRefreshes}",

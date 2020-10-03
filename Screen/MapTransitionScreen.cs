@@ -17,7 +17,7 @@ namespace RetroRedo.Screen
         private Vector2 _mapNameSize;
         private SpriteFont _mapNameFont;
 
-        private double MillisecondsToShowFor { get; } = 500;
+        private double MillisecondsToShowFor { get; } = 1500;
         public ScreenType ScreenType => ScreenType.MapTransitionScreen;
         public bool Ended { get; private set; }
         public Action<IScreen> RequestScreenChange { get; set; }

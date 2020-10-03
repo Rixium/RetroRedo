@@ -20,5 +20,6 @@ namespace RetroRedo.Entities
         void Move(int xChange, int yChange);
         void Entered(IEntity other);
         void Render(SpriteBatch spriteBatch);
+        void Wait();
     }
 }

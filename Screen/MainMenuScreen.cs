@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RetroRedo.Content;
 using RetroRedo.Window;
 
@@ -21,6 +22,13 @@ namespace RetroRedo.Screen
         private Vector2 _gameTitleTextSize;
         private SpriteFont _titleFont;
 
+        public MainMenuScreen()
+        {
+            MediaPlayer.Play(ContentChest.Get<Song>("Music/menu"));
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
+        }
+        
         public void Begin()
         {
             GameScreen.CurrentMap = 1;

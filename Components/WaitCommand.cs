@@ -10,7 +10,7 @@ namespace RetroRedo.Components
         public void Do(IEntity entity)
         {
             ContentChest.Get<SoundEffect>("Sounds/skip").Play();
-            // Does nothing, just waiting   
+            entity.Wait();
         }
 
         public void Undo(IEntity entity)
