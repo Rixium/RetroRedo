@@ -17,15 +17,13 @@ namespace RetroRedo.Commands
 
         public void Do(IEntity entity)
         {
-            entity.X += _xChange;
-            entity.Y += _yChange;
+            entity.Move(_xChange, _yChange);
             ContentChest.Get<SoundEffect>("Sounds/Walk").Play();
         }
 
         public void Undo(IEntity entity)
         {
-            entity.X -= _xChange;
-            entity.Y -= _yChange;
+            entity.Move(-_xChange, -_yChange);
         }
     }
 }

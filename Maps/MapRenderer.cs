@@ -9,7 +9,7 @@ namespace RetroRedo.Maps
 {
     public class MapRenderer : IMapRenderer
     {
-        private const int TileRenderSize = 32;
+        private const int TileRenderSize = 16;
         private const int ActualTileSize = 16;
         
         private Map _map;
@@ -27,7 +27,6 @@ namespace RetroRedo.Maps
             var screenCenter = WindowSettings.Center;
             var mapWidthInPixels = _map.MapWidth * TileRenderSize;
             var mapHeightInPixels = _map.MapHeight * TileRenderSize;
-            var mapRenderPoint = screenCenter - new Vector2(mapWidthInPixels / 2.0f, mapHeightInPixels / 2.0f);
 
             foreach (var tile in _map.Tiles)
             {
@@ -36,38 +35,32 @@ namespace RetroRedo.Maps
 
                 var tileSourceRectangle = new Rectangle(rectX * ActualTileSize, rectY * ActualTileSize, ActualTileSize,
                     ActualTileSize);
-                var tileDestinationRectangle = new Rectangle((int) (mapRenderPoint.X + tile.X * TileRenderSize),
-                    (int) (mapRenderPoint.Y + tile.Y * TileRenderSize), TileRenderSize, TileRenderSize);
+                var tileDestinationRectangle = new Rectangle(tile.X * TileRenderSize,
+                    tile.Y * TileRenderSize, TileRenderSize, TileRenderSize);
 
                 spriteBatch.Draw(tileSet, tileDestinationRectangle, tileSourceRectangle, Color.White);
             }
 
             foreach (var entity in _map.Entities)
             {
-                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
-                    new Rectangle(
-                        (int) (mapRenderPoint.X + entity.X * TileRenderSize),
-                        (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
-                        TileRenderSize,
-                        TileRenderSize),
-                    Color.White);
+                entity.Render(spriteBatch);
             }
             
             foreach (var entity in historical)
             {
                 spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
                     new Rectangle(
-                        (int) (mapRenderPoint.X + entity.X * TileRenderSize),
-                        (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
+                        entity.X * TileRenderSize,
+                        entity.Y * TileRenderSize,
                         TileRenderSize,
                         TileRenderSize),
-                    Color.White);
+                    Color.White * 0.5f);
             }
             
             spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
                 new Rectangle(
-                    (int) (mapRenderPoint.X + _map.Player.X * TileRenderSize),
-                    (int) (mapRenderPoint.Y + _map.Player.Y * TileRenderSize),
+                    _map.Player.X * TileRenderSize,
+                    _map.Player.Y * TileRenderSize,
                     TileRenderSize,
                     TileRenderSize),
                 Color.White);

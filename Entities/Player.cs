@@ -7,6 +7,10 @@
             X = x;
             Y = y;
         }
-        
+
+        public override void Entered(IEntity other)
+        {
+            // Does nothing.
+        }
     }
 }

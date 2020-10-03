@@ -50,10 +50,6 @@
 </data>
  </layer>
  <objectgroup id="4" name="entities">
-  <object id="4" x="36.1818" y="36.5455" width="7.63636" height="6">
-   <properties>
-    <property name="Name" value="playerStart"/>
-   </properties>
-  </object>
+  <object id="4" type="PlayerStart" x="36.1818" y="36.5455" width="7.63636" height="6"/>
  </objectgroup>
 </map>

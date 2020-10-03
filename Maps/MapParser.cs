@@ -15,6 +15,11 @@ namespace RetroRedo.Maps
             var mapTiles = ParseTiles(tiledMap);
             var mapEntities = ParseEntities(tiledMap);
 
+            foreach (var mapEntity in mapEntities.OtherEntities)
+            {
+                mapTiles[mapEntity.X, mapEntity.Y].TileEntities.Add(mapEntity);
+            }
+
             var map = new Map
             {
                 Id = tiledMap.MapId,
@@ -34,19 +39,31 @@ namespace RetroRedo.Maps
         private static (IEntity Player, IList<IEntity> OtherEntities) ParseEntities(TiledMap tiledMap)
         {
             var entityLayer = tiledMap.Layers.First(x => x.Name.Equals("Entities", StringComparison.OrdinalIgnoreCase));
-            var playerStartPosition = entityLayer
-                .Objects.First(x =>
-                    x.Properties.First(y => y.Name.Equals("Name", StringComparison.OrdinalIgnoreCase)).Value
-                        .Equals("playerStart", StringComparison.OrdinalIgnoreCase));
-
-            var player =
-                new Player((int) playerStartPosition.X / tiledMap.TileWidth,
-                    (int) playerStartPosition.Y / tiledMap.TileHeight);
-
-            player.AddComponent(new PlayerMovementComponent());
-            player.AddComponent(new CommandSetComponent());
-
+            Player player = null;
             var entities = new List<IEntity>();
+
+            foreach (var entityObject in entityLayer.Objects)
+            {
+                var tileX = (int) entityObject.X / tiledMap.TileWidth;
+                var tileY = (int) entityObject.Y / tiledMap.TileHeight;
+                
+                if (entityObject.Type.Equals("PlayerStart", StringComparison.OrdinalIgnoreCase))
+                {
+                    player = new Player(tileX, tileY);
+                    player.AddComponent(new PlayerMovementComponent());
+                    player.AddComponent(new CommandSetComponent());
+                }
+                else
+                {
+                    if (entityObject.Type.Equals("DoorToggle", StringComparison.OrdinalIgnoreCase))
+                    {
+                        entities.Add(new DoorToggle(tileX, tileY, int.Parse(entityObject.Name)));
+                    } else if (entityObject.Type.Equals("Door", StringComparison.OrdinalIgnoreCase))
+                    {
+                        entities.Add(new Door(tileX, tileY, int.Parse(entityObject.Name)));
+                    }
+                }
+            }
 
             return (player, entities);
         }

@@ -55,18 +55,34 @@
                  "height":6,
                  "id":4,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"playerStart"
-                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"PlayerStart",
                  "visible":true,
                  "width":7.63636,
                  "x":36.1818,
                  "y":36.5455
+                }, 
+                {
+                 "height":8.125,
+                 "id":6,
+                 "name":"1",
+                 "rotation":0,
+                 "type":"DoorToggle",
+                 "visible":true,
+                 "width":9.375,
+                 "x":35.375,
+                 "y":83.375
+                }, 
+                {
+                 "height":3.375,
+                 "id":9,
+                 "name":"1",
+                 "rotation":0,
+                 "type":"Door",
+                 "visible":true,
+                 "width":3.5,
+                 "x":38,
+                 "y":70.625
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -75,7 +91,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":5,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "properties":[
         {

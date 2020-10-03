@@ -17,6 +17,8 @@ namespace RetroRedo.Screen
 
     public class GameScreen : IScreen
     {
+        private Camera _camera = new Camera();
+        
         public static int CurrentMap = 1;
         public static int MapRefreshes = 0;
         
@@ -44,6 +46,8 @@ namespace RetroRedo.Screen
 
             _activeMap = _mapLoader.LoadMap(CurrentMap);
             _mapRenderer.SetMap(_activeMap);
+            
+            _camera.Position = new Vector2(_activeMap.MapWidth * _activeMap.TileWidth / 2.0f, _activeMap.MapHeight * _activeMap.TileHeight / 2.0f);
 
             Game1.Input.OnKeyPressed(Keys.X, ResetMap);
             TurnService.PlayersTurn = true;
@@ -155,11 +159,19 @@ namespace RetroRedo.Screen
 
         public void Render(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
-
+            // Background
+            spriteBatch.Begin();
             spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"), new Rectangle(0, 0, 1280, 720),
                 new Color(62, 59, 86));
-
+            spriteBatch.End();
+            
+            // Content
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, _camera.GetMatrix());
+            _mapRenderer.Render(spriteBatch, _mapEntityHistoryService.GetHistoricalEntities());
+            spriteBatch.End();
+            
+            // UI
+            spriteBatch.Begin();
             spriteBatch.DrawString(ContentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
                 new Vector2(40, 40), Color.White);
 
@@ -168,9 +180,6 @@ namespace RetroRedo.Screen
                 new Vector2(40,
                     WindowSettings.WindowHeight - font.MeasureString($"{MapRefreshes}").Y - 40),
                 Color.White);
-
-            _mapRenderer.Render(spriteBatch, _mapEntityHistoryService.GetHistoricalEntities());
-
             spriteBatch.End();
         }
 

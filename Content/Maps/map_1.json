@@ -55,14 +55,8 @@
                  "height":6,
                  "id":4,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"playerStart"
-                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"PlayerStart",
                  "visible":true,
                  "width":7.63636363636363,
                  "x":36.1818181818182,
