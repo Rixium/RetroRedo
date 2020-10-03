@@ -25,8 +25,8 @@ namespace RetroRedo.Input
 
             var keysPressed = keyboardState.GetPressedKeys()
                 .Except(_lastKeyboardState.GetPressedKeys());
-            
-            var keyPressedActions =                 
+
+            var keyPressedActions =
                 _keyPressed.Where(x => keysPressed.Contains(x.Key))
                     .Concat(_keyHeld.Where(x => keysHeld.Contains(x.Key)))
                     .Concat(_keyReleased.Where(x => keysReleased.Contains(x.Key)))
@@ -45,5 +45,12 @@ namespace RetroRedo.Input
         public void OnKeyHeld(Keys keys, Action action) => _keyHeld[keys] = action;
 
         public void OnKeyReleased(Keys keys, Action action) => _keyReleased[keys] = action;
+
+        public void Reset()
+        {
+            _keyPressed.Clear();
+            _keyHeld.Clear();
+            _keyReleased.Clear();
+        }
     }
 }
