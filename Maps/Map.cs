@@ -11,6 +11,7 @@ namespace RetroRedo.Maps
         public int MapHeight { get; set; }
         public Tile[,] Tiles { get; set; }
         public IList<IEntity> Entities { get; set; }
+        public IEntity Player { get; set; }
         public int TileHeight { get; set; }
         public int TileWidth { get; set; }
 
@@ -20,11 +21,14 @@ namespace RetroRedo.Maps
             {
                 entity.Begin();
             }
+            
+            Player.Begin();
         }
 
         public void AddEntities(IList<IEntity> oldEntities)
         {
             foreach (var entity in oldEntities) Entities.Add(entity);
         }
+        
     }
 }

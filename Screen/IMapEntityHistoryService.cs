@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Autofac;
+using RetroRedo.Components;
 using RetroRedo.Entities;
 
 namespace RetroRedo.Screen
@@ -18,6 +20,7 @@ namespace RetroRedo.Screen
             foreach (var entity in entities)
             {
                 _historicalEntities.Add(entity);
+                entity.AddComponent(Program.Container.Resolve<AutoCommandComponent>());
             }
         }
 

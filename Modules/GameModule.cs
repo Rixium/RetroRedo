@@ -4,6 +4,7 @@ using RetroRedo.Content;
 using RetroRedo.Input;
 using RetroRedo.Maps;
 using RetroRedo.Screen;
+using RetroRedo.Services;
 using RetroRedo.Window;
 
 namespace RetroRedo.Modules
@@ -29,6 +30,7 @@ namespace RetroRedo.Modules
         {
             builder.RegisterType<PlayerMovementComponent>();
             builder.RegisterType<CommandSetComponent>();
+            builder.RegisterType<AutoCommandComponent>();
         }
 
         private void RegisterContentLoaders(ContainerBuilder builder)
@@ -44,6 +46,7 @@ namespace RetroRedo.Modules
             builder.RegisterType<GameTimeService>().As<IGameTimeService>().SingleInstance();
             builder.RegisterType<GameStateService>().As<IGameStateService>().InstancePerLifetimeScope();
             builder.RegisterType<MapEntityHistoryService>().As<IMapEntityHistoryService>().InstancePerDependency();
+            builder.RegisterType<TurnService>().As<ITurnService>().SingleInstance();
         }
 
         private static void RegisterScreenTypes(ContainerBuilder builder)

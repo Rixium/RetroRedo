@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RetroRedo.Commands;
 using RetroRedo.Entities;
 
@@ -8,7 +9,6 @@ namespace RetroRedo.Components
     {
         public IEntity Entity { get; set; }
 
-        private readonly Queue<ICommand> _commandQueue = new Queue<ICommand>();
         private Stack<ICommand> _commandStack = new Stack<ICommand>();
 
         public void Begin()
@@ -21,27 +21,31 @@ namespace RetroRedo.Components
 
         public void PushCommand(ICommand command)
         {
-            _commandQueue.Enqueue(command);
             _commandStack.Push(command);
 
             command.Do(Entity);
         }
 
-        public void Undo()
-        {
-            _commandStack.TryPop(out var lastCommand);
-            lastCommand?.Undo(Entity);
-        }
-
         public void UndoAll()
         {
-            while (_commandStack.Count > 0)
+            var commandStackList = _commandStack.ToList();
+            foreach (var command in commandStackList)
             {
-                var currentCommand = _commandStack.Pop();
-                currentCommand.Undo(Entity);
+                command.Undo(Entity);
+            }
+        }
+
+        public Queue<ICommand> GetAsQueue()
+        {
+            var queue = new Queue<ICommand>();
+            var reversed = _commandStack.Reverse();
+
+            foreach (var command in reversed)
+            {
+                queue.Enqueue(command);
             }
 
-            _commandStack = new Stack<ICommand>();
+            return queue;
         }
     }
 }

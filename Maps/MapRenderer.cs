@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
+using RetroRedo.Entities;
 using RetroRedo.Window;
 
 namespace RetroRedo.Maps
@@ -22,7 +24,7 @@ namespace RetroRedo.Maps
 
         public void SetMap(Map map) => _map = map;
 
-        public void Render(SpriteBatch spriteBatch)
+        public void Render(SpriteBatch spriteBatch, IList<IEntity> historical)
         {
             if (_map == null)
             {
@@ -58,6 +60,25 @@ namespace RetroRedo.Maps
                         TileRenderSize),
                     Color.White);
             }
+            
+            foreach (var entity in historical)
+            {
+                spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+                    new Rectangle(
+                        (int) (mapRenderPoint.X + entity.X * TileRenderSize),
+                        (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
+                        TileRenderSize,
+                        TileRenderSize),
+                    Color.White);
+            }
+            
+            spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+                new Rectangle(
+                    (int) (mapRenderPoint.X + _map.Player.X * TileRenderSize),
+                    (int) (mapRenderPoint.Y + _map.Player.Y * TileRenderSize),
+                    TileRenderSize,
+                    TileRenderSize),
+                Color.White);
         }
     }
 }

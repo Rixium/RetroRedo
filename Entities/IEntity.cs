@@ -9,8 +9,9 @@ namespace RetroRedo.Entities
         public int Y { get; set; }
         public IList<IComponent> Components { get; }
         void Update();
-        void AddComponent(IComponent component);
+        T AddComponent<T>(T component) where T : IComponent;
         T GetComponent<T>() where T : IComponent;
         void Begin();
+        void RemoveComponent<T>();
     }
 }

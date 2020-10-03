@@ -8,9 +8,5 @@
             Y = y;
         }
         
-        public override void Update()
-        {
-            base.Update();
-        }
     }
 }

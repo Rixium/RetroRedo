@@ -18,13 +18,14 @@ namespace RetroRedo.Entities
             }
         }
 
-        public void AddComponent(IComponent component)
+        public T AddComponent<T>(T component) where T : IComponent
         {
             Components.Add(component);
             component.Entity = this;
+            return component;
         }
 
-        public T GetComponent<T>() where T : IComponent => 
+        public T GetComponent<T>() where T : IComponent =>
             (T) Components.FirstOrDefault(x => x.GetType() == typeof(T));
 
         public void Begin()
@@ -34,5 +35,7 @@ namespace RetroRedo.Entities
                 component.Begin();
             }
         }
+
+        public void RemoveComponent<T>() => Components.Remove(Components.First(x => x.GetType() == typeof(T)));
     }
 }

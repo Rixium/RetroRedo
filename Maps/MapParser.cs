@@ -25,13 +25,14 @@ namespace RetroRedo.Maps
                 TileHeight = tiledMap.TileHeight,
                 MapWidth = tiledMap.Width,
                 MapHeight = tiledMap.Height,
-                Entities = mapEntities
+                Player = mapEntities.Player,
+                Entities = mapEntities.OtherEntities
             };
 
             return map;
         }
 
-        private static IList<IEntity> ParseEntities(TiledMap tiledMap)
+        private static (IEntity Player, IList<IEntity> OtherEntities) ParseEntities(TiledMap tiledMap)
         {
             var entityLayer = tiledMap.Layers.First(x => x.Name.Equals("Entities", StringComparison.OrdinalIgnoreCase));
             var playerStartPosition = entityLayer
@@ -46,12 +47,9 @@ namespace RetroRedo.Maps
             player.AddComponent(Program.Container.Resolve<PlayerMovementComponent>());
             player.AddComponent(Program.Container.Resolve<CommandSetComponent>());
 
-            var entities = new List<IEntity>()
-            {
-                player
-            };
-            
-            return entities;
+            var entities = new List<IEntity>();
+
+            return (player, entities);
         }
 
         private static Tile[,] ParseTiles(TiledMap tiledMap)

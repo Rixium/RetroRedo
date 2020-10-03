@@ -2,57 +2,56 @@
 using RetroRedo.Commands;
 using RetroRedo.Entities;
 using RetroRedo.Input;
+using RetroRedo.Services;
 
 namespace RetroRedo.Components
 {
     public class PlayerMovementComponent : IComponent
     {
         private readonly IInputService _inputService;
+        private readonly ITurnService _turnService;
 
         public IEntity Entity { get; set; }
 
-        public PlayerMovementComponent(IInputService inputService)
+        public PlayerMovementComponent(IInputService inputService, ITurnService turnService)
         {
             _inputService = inputService;
+            _turnService = turnService;
         }
 
         public void Begin()
         {
             _inputService.OnKeyPressed(Keys.D, () =>
             {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.PushCommand(new MoveCommand(1, 0));
+                DoCommand(new MoveCommand(1, 0));
             });
             
             _inputService.OnKeyPressed(Keys.A, () =>
             {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.PushCommand(new MoveCommand(-1, 0));
+                DoCommand(new MoveCommand(-1, 0));
             });
             
             _inputService.OnKeyPressed(Keys.S, () =>
             {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.PushCommand(new MoveCommand(0, 1));
+                DoCommand(new MoveCommand(0, 1));
             });
             
             _inputService.OnKeyPressed(Keys.W, () =>
             {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.PushCommand(new MoveCommand(0, -1));
+                DoCommand(new MoveCommand(0, -1));
             });
             
             _inputService.OnKeyPressed(Keys.Space, () =>
-            {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.PushCommand(new WaitCommand());
+            { 
+                DoCommand(new WaitCommand());
             });
-            
-            _inputService.OnKeyPressed(Keys.Z, () =>
-            {
-                var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
-                commandSetComponent.Undo();
-            });
+        }
+
+        private void DoCommand(ICommand command)
+        {
+            var commandSetComponent = Entity.GetComponent<CommandSetComponent>();
+            commandSetComponent.PushCommand(command);
+            _turnService.PlayersTurn = false;
         }
 
         public void Update()
