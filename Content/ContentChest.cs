@@ -14,13 +14,14 @@ namespace RetroRedo.Content
             _contentManager = contentManager;
             _contentManager.RootDirectory = "Content";
         }
-        
+
         public void Load()
         {
             // Images
             _contentManager.Load<Texture2D>(Path.Combine("Images", "splash"));
             _contentManager.Load<Texture2D>(Path.Combine("Images", "pixel"));
-            
+            _contentManager.Load<Texture2D>(Path.Combine("Images", "tiles_1"));
+
             // Fonts
             _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "MainFont"));
             _contentManager.Load<SpriteFont>(Path.Combine("Fonts", "TitleFont"));
