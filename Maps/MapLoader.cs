@@ -10,14 +10,18 @@ namespace RetroRedo.Maps
 {
     internal class MapLoader : IMapLoader
     {
-        private readonly IDictionary<int, TiledMap> _maps = new Dictionary<int, TiledMap>();
+        private readonly IMapParser _mapParser;
+        private IList<Map> _maps = new List<Map>();
 
-        public IReadOnlyDictionary<int, TiledMap> LoadAll()
+        public MapLoader(IMapParser mapParser)
+        {
+            _mapParser = mapParser;
+        }
+        
+        public IReadOnlyCollection<Map> LoadAll()
         {
             if (_maps.Count != 0)
-            {
-                return _maps.ToImmutableDictionary();
-            }
+                return _maps.ToImmutableList();
 
             var mapFiles = Directory.GetFiles(Path.Combine("Content", "Maps"));
 
@@ -25,23 +29,21 @@ namespace RetroRedo.Maps
             {
                 var mapText = File.ReadAllText(mapFile);
                 var mapNumber = GetMapNumber(mapFile);
-                var map = JsonConvert.DeserializeObject<TiledMap>(mapText);
-                _maps.Add(mapNumber, map);
+                var tiledMap = JsonConvert.DeserializeObject<TiledMap>(mapText);
+                tiledMap.MapId = mapNumber;
+                
+                var parsedMap = _mapParser.Parse(tiledMap);
+                _maps.Add(parsedMap);
             }
 
-            return _maps.ToImmutableDictionary();
+            return _maps.ToImmutableList();
         }
 
-        public TiledMap LoadMap(int number)
+        public Map LoadMap(int mapId)
         {
             LoadAll();
-
-            if (_maps.ContainsKey(number))
-            {
-                return _maps[number];
-            }
-
-            throw new MapNotExistException();
+            var map = _maps.FirstOrDefault(x => x.Id == mapId);
+            return map ?? throw new MapNotExistException();
         }
 
         private static int GetMapNumber(string mapFile)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,7 +37,7 @@ namespace RetroRedo.Screen
         {
             var activeLevel = _gameStateService.CurrentLevel;
             var activeMap = _mapLoader.LoadMap(activeLevel);
-            _mapName = activeMap.Properties.First(x => x.Name.Equals("Name")).Value;
+            _mapName = activeMap.Name;
             _mapNameFont = _contentChest.Get<SpriteFont>("Fonts/TitleFont");
             _mapNameSize = _mapNameFont.MeasureString(_mapName);
 

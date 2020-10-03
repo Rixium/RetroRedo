@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
-using RetroRedo.Data;
 using RetroRedo.Maps;
 
 namespace RetroRedo.Screen
@@ -15,7 +13,7 @@ namespace RetroRedo.Screen
         private readonly IMapLoader _mapLoader;
         private readonly IMapRenderer _mapRenderer;
 
-        private TiledMap _activeTiledMap;
+        private Map _activeMap;
 
         public ScreenType ScreenType => ScreenType.Game;
         public bool Ended { get; private set; }
@@ -33,8 +31,8 @@ namespace RetroRedo.Screen
         public void Begin()
         {
             var activeMapId = _gameStateService.CurrentLevel;
-            _activeTiledMap = _mapLoader.LoadMap(activeMapId);
-            _mapRenderer.SetMap(_activeTiledMap);
+            _activeMap = _mapLoader.LoadMap(activeMapId);
+            _mapRenderer.SetMap(_activeMap);
         }
 
         public void Update()
@@ -48,8 +46,7 @@ namespace RetroRedo.Screen
             spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"), new Rectangle(0, 0, 1280, 720),
                 new Color(9, 22, 48));
 
-            spriteBatch.DrawString(_contentChest.Get<SpriteFont>("Fonts/MainFont"),
-                _activeTiledMap.Properties.First(x => x.Name.Equals("Name")).Value,
+            spriteBatch.DrawString(_contentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
                 new Vector2(40, 40), Color.White);
 
             _mapRenderer.Render(spriteBatch);
