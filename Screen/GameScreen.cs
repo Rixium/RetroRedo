@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RetroRedo.Components;
 using RetroRedo.Content;
 using RetroRedo.Entities;
@@ -38,6 +39,12 @@ namespace RetroRedo.Screen
 
         public void Begin()
         {
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(ContentChest.Get<Song>("Music/background"));
+                MediaPlayer.IsRepeating = true;
+            }
+
             _activeMap = _mapLoader.LoadMap(CurrentMap);
             _mapRenderer.SetMap(_activeMap);
 
@@ -136,7 +143,7 @@ namespace RetroRedo.Screen
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"), new Rectangle(0, 0, 1280, 720),
-                new Color(9, 22, 48));
+                new Color(62, 59, 86));
 
             spriteBatch.DrawString(ContentChest.Get<SpriteFont>("Fonts/MainFont"), _activeMap.Name,
                 new Vector2(40, 40), Color.White);

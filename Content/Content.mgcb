@@ -66,11 +66,23 @@
 /processorParam:TextureFormat=Color
 /build:Images/tiles_1.png
 
+#begin Music/background.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/background.mp3
+
 #begin Sounds/clap.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/clap.wav
+
+#begin Sounds/skip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/skip.wav
 
 #begin Sounds/walk.wav
 /importer:WavImporter
