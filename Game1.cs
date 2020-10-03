@@ -30,7 +30,7 @@ namespace RetroRedo
 
         protected override void Initialize()
         {
-            _screenService.SetNextScreen(ScreenType.Splash);
+            _screenService.SetNextScreen(ScreenType.MainMenu);
             
             base.Initialize();
         }
