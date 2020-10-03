@@ -10,7 +10,8 @@ namespace RetroRedo.Maps
         public int MapWidth { get; set; }
         public int MapHeight { get; set; }
         public Tile[,] Tiles { get; set; }
-
-        private IList<IEntity> _mapEntities = new List<IEntity>();
+        public IList<IEntity> Entities { get; set; }
+        public int TileHeight { get; set; }
+        public int TileWidth { get; set; }
     }
 }

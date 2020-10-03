@@ -1,10 +1,8 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-
-namespace RetroRedo.Entities
+﻿namespace RetroRedo.Entities
 {
     public interface IEntity
     {
-        void Update();
-        void Render(SpriteBatch spriteBatch);
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

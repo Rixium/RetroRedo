@@ -21,10 +21,10 @@
 41,42,42,42,42,42,42,42,42,43
 </data>
  </layer>
- <objectgroup id="4" name="objects">
-  <object id="2" x="40.25" y="38.5">
+ <objectgroup id="4" name="entities">
+  <object id="2" x="33" y="32.25">
    <properties>
-    <property name="Name" value="Player"/>
+    <property name="Name" value="playerStart"/>
    </properties>
   </object>
  </objectgroup>

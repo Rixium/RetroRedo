@@ -6,7 +6,7 @@ using RetroRedo.Window;
 namespace RetroRedo.Maps
 {
     public class MapRenderer : IMapRenderer
-    {       
+    {
         private const int TileRenderSize = 32;
         private const int ActualTileSize = 16;
 
@@ -19,7 +19,7 @@ namespace RetroRedo.Maps
             _contentChest = contentChest;
             _windowSettings = windowSettings;
         }
-        
+
         public void SetMap(Map map) => _map = map;
 
         public void Render(SpriteBatch spriteBatch)
@@ -44,10 +44,20 @@ namespace RetroRedo.Maps
                     ActualTileSize);
                 var tileDestinationRectangle = new Rectangle((int) (mapRenderPoint.X + tile.X * TileRenderSize),
                     (int) (mapRenderPoint.Y + tile.Y * TileRenderSize), TileRenderSize, TileRenderSize);
-                
+
                 spriteBatch.Draw(tileSet, tileDestinationRectangle, tileSourceRectangle, Color.White);
             }
 
+            foreach (var entity in _map.Entities)
+            {
+                spriteBatch.Draw(_contentChest.Get<Texture2D>("Images/pixel"),
+                    new Rectangle(
+                        (int) (mapRenderPoint.X + entity.X * TileRenderSize),
+                        (int) (mapRenderPoint.Y + entity.Y * TileRenderSize),
+                        TileRenderSize,
+                        TileRenderSize),
+                    Color.White);
+            }
         }
     }
 }
