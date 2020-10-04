@@ -19,6 +19,7 @@ namespace RetroRedo.Screen
     {
         private Camera _camera = new Camera();
 
+        private bool Paused = false;
         private static int _currentMapHistoryState;
         private static MapEntityHistoryService _mapEntityHistoryService;
         
@@ -29,6 +30,8 @@ namespace RetroRedo.Screen
         private readonly MapRenderer _mapRenderer;
 
         private Map _activeMap;
+        private static float _timeSinceLastMove;
+        private static float _controlFadeIn;
 
         public ScreenType ScreenType => ScreenType.Game;
         public bool Ended { get; private set; }
@@ -59,7 +62,7 @@ namespace RetroRedo.Screen
 
             Game1.Input.OnKeyPressed(Keys.X, ResetMap);
             Game1.Input.OnKeyPressed(Keys.Z, HardRestart);
-            
+
             TurnService.PlayersTurn = true;
 
             foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
@@ -135,9 +138,25 @@ namespace RetroRedo.Screen
             if (TurnService.PlayersTurn)
             {
                 _activeMap.Player.Update();
+                
+                if (TurnService.PlayersTurn)
+                {
+                    _timeSinceLastMove += delta;
+
+                    if (_timeSinceLastMove > 4f)
+                    {
+                        _controlFadeIn += delta * 2;
+
+                        if (_controlFadeIn > 1f)
+                        {
+                            _controlFadeIn = 1.0f;
+                        }
+                    }
+                }
             }
             else
             {
+                _timeSinceLastMove = 0;
                 foreach (var entity in _activeMap.Entities)
                 {
                     entity.Update();
@@ -149,6 +168,13 @@ namespace RetroRedo.Screen
                 }
 
                 EndTurn();
+            }
+            
+            _controlFadeIn -= delta * 1;
+            
+            if (_controlFadeIn < 0)
+            {
+                _controlFadeIn = 0f;
             }
         }
 
@@ -206,10 +232,42 @@ namespace RetroRedo.Screen
                 new Vector2(1, 0) * WindowSettings.Center + new Vector2(0, 70) - titlefont.MeasureString(_activeMap.Name) / 2.0f, Color.White);
 
             var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
+            
             spriteBatch.DrawString(font, $"Redos: {MapRefreshes}",
                 new Vector2(40,
                     WindowSettings.WindowHeight - font.MeasureString($"{MapRefreshes}").Y - 40),
                 Color.White);
+
+            spriteBatch.DrawString(font, "W: Move Up",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("W: Move Up").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("W: Move Up").Y * 6 - 90),
+                Color.White * _controlFadeIn);
+
+            spriteBatch.DrawString(font, "D: Move Down",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("S: Move Down").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("S: Move Down").Y * 5 - 80),
+                Color.White * _controlFadeIn);
+
+            spriteBatch.DrawString(font, "A: Move Left",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("A: Move Left").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("A: Move Left").Y * 4 - 70),
+                Color.White * _controlFadeIn);
+
+            spriteBatch.DrawString(font, "D: Move Right",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("D: Move Right").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("D: Move Right").Y * 3 - 60),
+                Color.White * _controlFadeIn);
+
+            spriteBatch.DrawString(font, "X: Redo",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("X: Redo").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("X: Redo").Y * 2 - 50),
+                Color.White * _controlFadeIn);
+
+            spriteBatch.DrawString(font, "Z: Hard Restart",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("Z: Hard Restart").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("Z: Hard Restart").Y - 40),
+                Color.White * _controlFadeIn);
+ 
             spriteBatch.End();
         }
 

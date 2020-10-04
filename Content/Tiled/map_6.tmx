@@ -4,7 +4,7 @@
   <export target="../Maps/map_6.json" format="json"/>
  </editorsettings>
  <properties>
-  <property name="Name" value="Plan Ahead"/>
+  <property name="Name" value="Plan Ahead, Or Press Z"/>
  </properties>
  <tileset firstgid="1" source="Tiles_1.tsx"/>
  <layer id="1" name="tiles" width="7" height="9">

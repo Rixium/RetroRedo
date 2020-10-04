@@ -62,6 +62,39 @@ namespace RetroRedo.Screen
 
             _startGameText.Render(spriteBatch);
 
+            
+            var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
+
+            spriteBatch.DrawString(font, "W: Move Up",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("W: Move Up").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("W: Move Up").Y * 6 - 90),
+                Color.White);
+
+            spriteBatch.DrawString(font, "D: Move Down",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("S: Move Down").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("S: Move Down").Y * 5 - 80),
+                Color.White);
+
+            spriteBatch.DrawString(font, "A: Move Left",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("A: Move Left").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("A: Move Left").Y * 4 - 70),
+                Color.White);
+
+            spriteBatch.DrawString(font, "D: Move Right",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("D: Move Right").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("D: Move Right").Y * 3 - 60),
+                Color.White);
+
+            spriteBatch.DrawString(font, "X: Redo",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("X: Redo").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("X: Redo").Y * 2 - 50),
+                Color.White);
+
+            spriteBatch.DrawString(font, "Z: Hard Restart",
+                new Vector2(WindowSettings.WindowWidth - font.MeasureString("Z: Hard Restart").X - 40,
+                    WindowSettings.WindowHeight - font.MeasureString("Z: Hard Restart").Y - 40),
+                Color.White);
+            
             spriteBatch.End();
         }
 
