@@ -106,6 +106,11 @@ namespace RetroRedo.Screen
         {
             if (Ended) return;
 
+            foreach (var entity in _activeMap.Entities)
+            {
+                entity.AnyTimeUpdate();
+            }
+            
             if (TurnService.PlayersTurn)
             {
                 _activeMap.Player.Update();

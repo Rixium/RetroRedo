@@ -63,10 +63,7 @@ namespace RetroRedo.Maps
                         var doorStatus = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Blocking"));
                         var blocking = bool.Parse(doorStatus?.Value ?? "false");
                         entities.Add(
-                            new Door(tileX, tileY, int.Parse(entityObject.Name))
-                            {
-                                Blocking = blocking
-                            });
+                            new Door(tileX, tileY, int.Parse(entityObject.Name), blocking));
                     } else if (entityObject.Type.Equals("WaitDoor", StringComparison.OrdinalIgnoreCase))
                     {
                         var doorStatus = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Blocking"));

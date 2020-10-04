@@ -21,5 +21,6 @@ namespace RetroRedo.Entities
         void Entered(IEntity other);
         void Render(SpriteBatch spriteBatch);
         void Wait();
+        void AnyTimeUpdate();
     }
 }

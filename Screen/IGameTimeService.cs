@@ -4,7 +4,7 @@ namespace RetroRedo.Screen
 {
     public interface IGameTimeService
     {
-        float DeltaTime { get; }
+        static float DeltaTime { get; }
 
         void Update(GameTime gameTime);
     }

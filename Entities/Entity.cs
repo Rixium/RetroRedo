@@ -69,5 +69,9 @@ namespace RetroRedo.Entities
                 }
             }
         }
+
+        public virtual void AnyTimeUpdate()
+        {
+        }
     }
 }

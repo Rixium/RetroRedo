@@ -51,7 +51,7 @@ namespace RetroRedo
             _gameTimeService.Update(gameTime);
             Input.Update();
             
-            _screenService.UpdateScreen(_gameTimeService.DeltaTime);
+            _screenService.UpdateScreen(GameTimeService.DeltaTime);
             base.Update(gameTime);
         }
 
