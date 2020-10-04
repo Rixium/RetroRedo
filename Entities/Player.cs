@@ -12,5 +12,10 @@
         {
             // Does nothing.
         }
+
+        public override void Left(IEntity other)
+        {
+            
+        }
     }
 }

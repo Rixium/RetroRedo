@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="7" height="9" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="12">
+ <editorsettings>
+  <export target="../Maps/map_4.json" format="json"/>
+ </editorsettings>
+ <properties>
+  <property name="Name" value="Apply Pressure"/>
+ </properties>
+ <tileset firstgid="1" source="Tiles_1.tsx"/>
+ <layer id="1" name="tiles" width="7" height="9" visible="0">
+  <data encoding="csv">
+1,2,2,2,3,0,0,
+21,22,22,22,23,0,0,
+21,22,22,22,23,0,0,
+21,22,22,22,23,0,0,
+41,51,22,50,43,0,0,
+21,22,22,22,2,2,3,
+21,22,22,22,22,4,23,
+21,22,22,22,63,42,43,
+41,42,42,42,43,0,0
+</data>
+ </layer>
+ <layer id="5" name="collidable" width="7" height="9">
+  <data encoding="csv">
+46,46,46,46,46,0,0,
+46,0,0,0,46,0,0,
+46,0,0,0,46,0,0,
+46,0,0,0,46,0,0,
+46,46,0,46,46,46,46,
+46,0,0,0,46,46,46,
+46,0,0,0,0,0,46,
+46,0,0,0,46,46,46,
+46,46,46,46,46,46,46
+</data>
+ </layer>
+ <layer id="6" name="win" width="7" height="9">
+  <data encoding="csv">
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,4,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="4" name="entities">
+  <object id="4" type="PlayerStart" x="36.1959" y="100.444" width="7.63636" height="6"/>
+  <object id="6" name="1" type="DoorToggle" x="35.5568" y="83.5568" width="9.375" height="8.125"/>
+  <object id="9" name="1" type="Door" x="38.7273" y="69.5341" width="3.5" height="3.375">
+   <properties>
+    <property name="Blocking" value="True"/>
+   </properties>
+  </object>
+  <object id="10" name="2" type="Door" x="69.7761" y="102.041" width="3.5" height="3.375">
+   <properties>
+    <property name="Blocking" value="True"/>
+    <property name="Side" value="True"/>
+   </properties>
+  </object>
+  <object id="11" name="2" type="PressurePlate" x="35.387" y="35.509" width="9.375" height="8.125"/>
+ </objectgroup>
+</map>

@@ -104,13 +104,13 @@ namespace RetroRedo.Screen
 
         public void Update(float delta)
         {
-            if (Ended) return;
-
             foreach (var entity in _activeMap.Entities)
             {
                 entity.AnyTimeUpdate();
             }
             
+            if (Ended) return;
+
             if (TurnService.PlayersTurn)
             {
                 _activeMap.Player.Update();

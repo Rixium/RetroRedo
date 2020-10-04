@@ -36,6 +36,11 @@ namespace RetroRedo.Entities
             _steppedOn = true;
         }
 
+        public override void Left(IEntity other)
+        {
+            
+        }
+
         public override void Render(SpriteBatch spriteBatch)
         {
             var image = _steppedOn

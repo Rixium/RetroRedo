@@ -38,6 +38,11 @@ namespace RetroRedo.Entities
             // Does nothing
         }
 
+        public override void Left(IEntity other)
+        {
+            
+        }
+
         public override void AnyTimeUpdate()
         {
             if (Opening)

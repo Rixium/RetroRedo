@@ -58,11 +58,19 @@ namespace RetroRedo.Maps
                     if (entityObject.Type.Equals("DoorToggle", StringComparison.OrdinalIgnoreCase))
                     {
                         entities.Add(new DoorToggle(tileX, tileY, int.Parse(entityObject.Name)));
+                    } else if (entityObject.Type.Equals("PressurePlate", StringComparison.OrdinalIgnoreCase))
+                    {
+                        entities.Add(new PressurePlate(tileX, tileY, int.Parse(entityObject.Name)));
                     } else if (entityObject.Type.Equals("Door", StringComparison.OrdinalIgnoreCase))
                     {
                         var doorStatus = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Blocking"));
+                        var doorOrientation = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Side"));
+                        var side = bool.Parse(doorOrientation?.Value ?? "false");
                         var blocking = bool.Parse(doorStatus?.Value ?? "false");
-                        entities.Add(new Door(tileX, tileY, int.Parse(entityObject.Name), blocking));
+                        entities.Add(new Door(tileX, tileY, int.Parse(entityObject.Name), blocking)
+                        {
+                            Side = side
+                        });
                     } else if (entityObject.Type.Equals("WaitDoor", StringComparison.OrdinalIgnoreCase))
                     {
                         var doorStatus = entityObject.Properties.FirstOrDefault(x => x.Name.Equals("Blocking"));

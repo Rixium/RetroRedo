@@ -19,6 +19,7 @@ namespace RetroRedo.Entities
         void RemoveComponent<T>();
         void Move(int xChange, int yChange);
         void Entered(IEntity other);
+        void Left(IEntity other);
         void Render(SpriteBatch spriteBatch);
         void Wait();
         void AnyTimeUpdate();

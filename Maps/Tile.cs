@@ -10,7 +10,7 @@ namespace RetroRedo.Maps
         public int Y { get; }
         public bool Collidable { get; set; }
         public bool IsWin { get; set; }
-        
+
         public IList<IEntity> TileEntities { get; } = new List<IEntity>();
         public int RenderX => X * 16;
         public int RenderY => Y * 16;
@@ -27,6 +27,14 @@ namespace RetroRedo.Maps
             foreach (var entity in TileEntities)
             {
                 entity.Entered(other);
+            }
+        }
+
+        public void OnExit(Entity other)
+        {
+            foreach (var entity in TileEntities)
+            {
+                entity.Left(other);
             }
         }
     }

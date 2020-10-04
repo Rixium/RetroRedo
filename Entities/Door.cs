@@ -13,6 +13,9 @@ namespace RetroRedo.Entities
         private float _currDoorImage = 1;
         private float _maxDoorImage = 5;
         private float _minDoorImage = 1;
+
+        private bool _open;
+        private bool _closed;
         
         public int DoorId { get; }
 
@@ -26,10 +29,12 @@ namespace RetroRedo.Entities
             
             if (blocking)
             {
+                _closed = true;
                 _currDoorImage = _minDoorImage;
             }
             else
             {
+                _open = true;
                 _currDoorImage = _maxDoorImage;
             }
         }
@@ -39,18 +44,28 @@ namespace RetroRedo.Entities
             // Does nothing.
         }
 
+        public override void Left(IEntity other)
+        {
+            
+        }
+
         public void Toggle()
         {
-            if (Blocking)
+            _doorTimer = 0;
+            if (_open || Opening)
+            {
+                Closing = true;
+                Blocking = true;
+                Opening = false;
+                _open = false;
+                return;
+            }
+            
+            if (_closed || Closing)
             {
                 Opening = true;
                 Closing = false;
-            }
-            else
-            {
-                Blocking = true;
-                Closing = true;
-                Opening = false;
+                _closed = false;
             }
         }
 
@@ -65,44 +80,60 @@ namespace RetroRedo.Entities
                 {
                     _currDoorImage++;
                     _doorTimer = 0;
-                    if (_currDoorImage > _maxDoorImage)
+                    if (_currDoorImage >= _maxDoorImage)
                     {
                         _currDoorImage = _maxDoorImage;
                         Opening = false;
                         Blocking = false;
+                        Closing = false; 
+                        _open = true;
+                        _closed = false;
                     }
                 }
-            } else if (Closing)
+            }
+            
+            if (Closing)
             {
                 _doorTimer += GameTimeService.DeltaTime;
                 if (_doorTimer > _animSpeed)
                 {
                     _currDoorImage--;
-                    if (_currDoorImage < _minDoorImage)
+                    _doorTimer = 0;
+                    if (_currDoorImage <= _minDoorImage)
                     {
                         _currDoorImage = _minDoorImage;
                         Closing = false;
+                        Opening = false;
                         Blocking = true;
+                        _closed = true;
+                        _open = false;
                     }
-                    _doorTimer = 0;
                 }
             }
             base.AnyTimeUpdate();
         }
 
         public bool Opening { get; set; }
+        public bool Side { get; set; }
 
         public void Close() => Blocking = true;
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            var orientationExtra = "";
+
+            if (Side)
+            {
+                orientationExtra = "side";
+            }
+            
             if (Closing || Opening ||!Blocking)
             {
-                spriteBatch.Draw(ContentChest.Get<Texture2D>($"Images/closed_block_door{_currDoorImage}"),
+                spriteBatch.Draw(ContentChest.Get<Texture2D>($"Images/closed_block_door{orientationExtra}{_currDoorImage}"),
                     new Vector2(Tile.RenderX, Tile.RenderY), Color.White);
             } else if (Blocking)
             {
-                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/closed_block"), new Vector2(Tile.RenderX, Tile.RenderY), Color.White);
+                spriteBatch.Draw(ContentChest.Get<Texture2D>($"Images/closed_block{orientationExtra}"), new Vector2(Tile.RenderX, Tile.RenderY), Color.White);
             }
             
             base.Render(spriteBatch);

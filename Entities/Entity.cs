@@ -46,6 +46,8 @@ namespace RetroRedo.Entities
         
         public void Move(int xChange, int yChange)
         {
+            Tile.OnExit(this);
+            
             X += xChange;
             Y += yChange;
             
@@ -53,6 +55,8 @@ namespace RetroRedo.Entities
         }
 
         public abstract void Entered(IEntity other);
+        public abstract void Left(IEntity other);
+
         public virtual void Render(SpriteBatch spriteBatch)
         {
             
