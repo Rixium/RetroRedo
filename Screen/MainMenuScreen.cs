@@ -33,7 +33,7 @@ namespace RetroRedo.Screen
         
         public void Begin()
         {
-            GameScreen.CurrentMap = 6;
+            GameScreen.CurrentMap = 1;
             
             _titleFont = ContentChest.Get<SpriteFont>("Fonts/TitleFont");
             _gameTitleTextSize = _titleFont.MeasureString(GameTitle);

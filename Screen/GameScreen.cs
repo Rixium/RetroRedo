@@ -86,7 +86,8 @@ namespace RetroRedo.Screen
             Ended = true;
             
             _mapEntityHistoryService.Reset();
-            
+
+            MapRefreshes = 0;
             Game1.Input.Reset();
             TurnService.PlayersTurn = true;
 
