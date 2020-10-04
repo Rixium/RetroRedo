@@ -43,7 +43,6 @@ namespace RetroRedo.Entities
         {
             if (Blocking)
             {
-                Blocking = false;
                 Opening = true;
                 Closing = false;
             }
@@ -70,6 +69,7 @@ namespace RetroRedo.Entities
                     {
                         _currDoorImage = _maxDoorImage;
                         Opening = false;
+                        Blocking = false;
                     }
                 }
             } else if (Closing)
@@ -82,6 +82,7 @@ namespace RetroRedo.Entities
                     {
                         _currDoorImage = _minDoorImage;
                         Closing = false;
+                        Blocking = true;
                     }
                     _doorTimer = 0;
                 }

@@ -51,6 +51,7 @@ namespace RetroRedo.Entities
                     {
                         _currDoorImage = _maxDoorImage;
                         Opening = false;
+                        Blocking = false;
                     }
                 }
             } else if (Closing)
@@ -63,6 +64,7 @@ namespace RetroRedo.Entities
                     {
                         _currDoorImage = _minDoorImage;
                         Closing = false;
+                        Blocking = true;
                     }
                     _doorTimer = 0;
                 }
@@ -103,7 +105,6 @@ namespace RetroRedo.Entities
                 _waitTime = 0;
                 ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
                 Opening = true;
-                Blocking = false;
             }
         }
     }
