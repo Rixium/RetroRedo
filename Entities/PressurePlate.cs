@@ -40,7 +40,15 @@ namespace RetroRedo.Entities
                     if (door.Requires <= 0)
                     {
                         door.Requires = 0;
-                        door.Open();
+                        
+                        if (door.ClosedAtStart)
+                        {
+                            door.Open();
+                        }
+                        else
+                        {
+                            door.Close();
+                        }
                     }
                 }
 
@@ -72,7 +80,14 @@ namespace RetroRedo.Entities
 
                     if (door.Requires > 0)
                     {
-                        door.Close();
+                        if (door.ClosedAtStart)
+                        {
+                            door.Close();
+                        }
+                        else
+                        {
+                            door.Open();
+                        }
                     }
                 }
 

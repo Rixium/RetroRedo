@@ -27,7 +27,7 @@ namespace RetroRedo.Entities
             Y = tileY;
 
             Blocking = blocking;
-            
+            ClosedAtStart = blocking;
             if (blocking)
             {
                 _closed = true;
@@ -119,7 +119,8 @@ namespace RetroRedo.Entities
         public bool Opening { get; set; }
         public bool Side { get; set; }
         public int Requires { get; set; }
-        
+        public bool ClosedAtStart { get; set; }
+
         public void Close()
         {            
             _doorTimer = 0;

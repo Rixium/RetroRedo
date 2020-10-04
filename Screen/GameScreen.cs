@@ -58,6 +58,8 @@ namespace RetroRedo.Screen
             _camera.Position = new Vector2(_activeMap.MapWidth * _activeMap.TileWidth / 2.0f, _activeMap.MapHeight * _activeMap.TileHeight / 2.0f);
 
             Game1.Input.OnKeyPressed(Keys.X, ResetMap);
+            Game1.Input.OnKeyPressed(Keys.Z, HardRestart);
+            
             TurnService.PlayersTurn = true;
 
             foreach (var entity in _mapEntityHistoryService.GetHistoricalEntities())
@@ -69,6 +71,23 @@ namespace RetroRedo.Screen
             _activeMap.Begin();
             
             Ended = false;
+        }
+
+        private void HardRestart()
+        {
+            if (Ended)
+            {
+                return;
+            }
+            
+            Ended = true;
+            
+            _mapEntityHistoryService.Reset();
+            
+            Game1.Input.Reset();
+            TurnService.PlayersTurn = true;
+
+            RequestScreenChange?.Invoke(new GameScreen());
         }
 
         public void Begin()
