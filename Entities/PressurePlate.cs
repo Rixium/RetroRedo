@@ -9,7 +9,7 @@ namespace RetroRedo.Entities
 {
     internal class PressurePlate : Entity
     {
-        private int _doorId;
+        public int DoorId { get; private set; }
         private HashSet<IEntity> _onEntities = new HashSet<IEntity>();
         private int _onCount;
 
@@ -17,7 +17,7 @@ namespace RetroRedo.Entities
         {
             X = tileX;
             Y = tileY;
-            _doorId = doorId;
+            DoorId = doorId;
         }
 
         public override void Entered(IEntity other)
@@ -27,7 +27,7 @@ namespace RetroRedo.Entities
             if (added && _onEntities.Count == 1)
             {
                 var doors =
-                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == _doorId);
+                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
 
                 if (doors == null) return;
 
@@ -35,7 +35,13 @@ namespace RetroRedo.Entities
                 {
                     var door = (Door) entity;
 
-                    door.Toggle();
+                    door.Requires--;
+
+                    if (door.Requires <= 0)
+                    {
+                        door.Requires = 0;
+                        door.Open();
+                    }
                 }
 
                 ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
@@ -54,14 +60,20 @@ namespace RetroRedo.Entities
             if (removed)
             {
                 var doors =
-                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == _doorId);
+                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
 
                 if (doors == null) return;
 
                 foreach (var entity in doors)
                 {
                     var door = (Door) entity;
-                    door.Toggle();
+
+                    door.Requires++;
+
+                    if (door.Requires > 0)
+                    {
+                        door.Close();
+                    }
                 }
 
                 ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();

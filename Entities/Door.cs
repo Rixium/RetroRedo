@@ -115,9 +115,30 @@ namespace RetroRedo.Entities
 
         public bool Opening { get; set; }
         public bool Side { get; set; }
+        public int Requires { get; set; }
+        
+        public void Close()
+        {            
+            _doorTimer = 0;
+            if (_open || Opening)
+            {
+                Closing = true;
+                Blocking = true;
+                Opening = false;
+                _open = false;
+            }
+        }
 
-        public void Close() => Blocking = true;
-
+        public void Open()
+        {
+            if (_closed || Closing)
+            {
+                Opening = true;
+                Closing = false;
+                _closed = false;
+            }
+        }
+        
         public override void Render(SpriteBatch spriteBatch)
         {
             var orientationExtra = "";
@@ -138,5 +159,6 @@ namespace RetroRedo.Entities
             
             base.Render(spriteBatch);
         }
+
     }
 }
