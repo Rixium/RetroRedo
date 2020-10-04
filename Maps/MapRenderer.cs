@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
@@ -12,6 +13,9 @@ namespace RetroRedo.Maps
         private const int TileRenderSize = 16;
         private const int ActualTileSize = 16;
         
+        Random random = new Random();
+        HashSet<Tile> _historyTiles = new HashSet<Tile>();
+
         private Map _map;
 
         public void SetMap(Map map) => _map = map;
@@ -45,25 +49,73 @@ namespace RetroRedo.Maps
             {
                 entity.Render(spriteBatch);
             }
+
+            _map.Player.Render(spriteBatch);
             
+            var entitiesOnPlayer = 0;
+
             foreach (var entity in historical)
             {
-                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
-                    new Rectangle(
-                        entity.X * TileRenderSize,
-                        entity.Y * TileRenderSize,
-                        TileRenderSize,
-                        TileRenderSize),
-                    Color.White * 0.5f);
+                if (entity.X == _map.Player.X && entity.Y == _map.Player.Y)
+                {
+                    entitiesOnPlayer++;
+                    
+                    var rainbow = Rainbow(entitiesOnPlayer / 10.0f);
+
+                    spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/player"),
+                        new Vector2(
+                            entity.X * TileRenderSize,
+                            entity.Y * TileRenderSize - 3 * entitiesOnPlayer),
+                        new Color(rainbow.R, rainbow.G, rainbow.B));
+                }
+                else
+                {
+                    var entityTile = _map.Tiles[entity.X, entity.Y];
+                    var entitiesHere = entityTile.ThisFrameHistoryCount;
+
+                    var rainbow = Rainbow(entitiesHere / 10.0f);
+                    
+                    spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/player"),
+                        new Vector2(
+                            entity.X * TileRenderSize,
+                            entity.Y * TileRenderSize - 3 * entitiesHere),
+                        new Color(rainbow.R, rainbow.G, rainbow.B));
+
+                    entityTile.ThisFrameHistoryCount++;
+
+                    _historyTiles.Add(entityTile);
+                }
+            }
+
+            foreach (var tile in _historyTiles)
+            {
+                tile.ThisFrameHistoryCount = 0;
             }
             
-            spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
-                new Rectangle(
-                    _map.Player.X * TileRenderSize,
-                    _map.Player.Y * TileRenderSize,
-                    TileRenderSize,
-                    TileRenderSize),
-                Color.White);
+            _historyTiles.Clear();
+        }
+        
+        public static System.Drawing.Color Rainbow(float progress)
+        {
+            var div = (Math.Abs(progress % 1) * 6);
+            var ascending = (int) ((div % 1) * 255);
+            var descending = 255 - ascending;
+
+            switch ((int) div)
+            {
+                case 0:
+                    return System.Drawing.Color.FromArgb(255, 255, ascending, 0);
+                case 1:
+                    return System.Drawing.Color.FromArgb(255, descending, 255, 0);
+                case 2:
+                    return System.Drawing.Color.FromArgb(255, 0, 255, ascending);
+                case 3:
+                    return System.Drawing.Color.FromArgb(255, 0, descending, 255);
+                case 4:
+                    return System.Drawing.Color.FromArgb(255, ascending, 0, 255);
+                default: // case 5:
+                    return System.Drawing.Color.FromArgb(255, 255, 0, descending);
+            }
         }
     }
 }

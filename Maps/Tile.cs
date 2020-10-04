@@ -30,6 +30,8 @@ namespace RetroRedo.Maps
             }
         }
 
+        public int ThisFrameHistoryCount { get; set; }
+
         public void OnExit(Entity other)
         {
             foreach (var entity in TileEntities)

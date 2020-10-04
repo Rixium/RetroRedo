@@ -109,6 +109,8 @@ namespace RetroRedo.Screen
                 entity.AnyTimeUpdate();
             }
             
+            _activeMap.Player.AnyTimeUpdate();
+            
             if (Ended) return;
 
             if (TurnService.PlayersTurn)
