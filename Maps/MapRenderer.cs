@@ -66,7 +66,7 @@ namespace RetroRedo.Maps
                         new Vector2(
                             entity.X * TileRenderSize,
                             entity.Y * TileRenderSize - 3 * entitiesOnPlayer),
-                        new Color(rainbow.R, rainbow.G, rainbow.B));
+                        new Color(rainbow.R, rainbow.G, rainbow.B) * 0.3f);
                 }
                 else
                 {
@@ -79,7 +79,7 @@ namespace RetroRedo.Maps
                         new Vector2(
                             entity.X * TileRenderSize,
                             entity.Y * TileRenderSize - 3 * entitiesHere),
-                        new Color(rainbow.R, rainbow.G, rainbow.B));
+                        new Color(rainbow.R, rainbow.G, rainbow.B) * 0.3f);
 
                     entityTile.ThisFrameHistoryCount++;
 
