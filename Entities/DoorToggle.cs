@@ -32,7 +32,7 @@ namespace RetroRedo.Entities
                 door.Toggle();
             }
 
-            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+            ContentChest.Get<SoundEffect>("Sounds/pressure_on").Play();
             _steppedOn = true;
         }
 

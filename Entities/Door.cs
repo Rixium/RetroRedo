@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using RetroRedo.Content;
 using RetroRedo.Screen;
@@ -58,6 +59,7 @@ namespace RetroRedo.Entities
                 Blocking = true;
                 Opening = false;
                 _open = false;
+                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play(0.5f, 0, 0);
                 return;
             }
             
@@ -66,6 +68,7 @@ namespace RetroRedo.Entities
                 Opening = true;
                 Closing = false;
                 _closed = false;
+                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play(0.5f, 0, 0);
             }
         }
 
@@ -122,6 +125,7 @@ namespace RetroRedo.Entities
             _doorTimer = 0;
             if (_open || Opening)
             {
+                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
                 Closing = true;
                 Blocking = true;
                 Opening = false;
@@ -133,6 +137,7 @@ namespace RetroRedo.Entities
         {
             if (_closed || Closing)
             {
+                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
                 Opening = true;
                 Closing = false;
                 _closed = false;

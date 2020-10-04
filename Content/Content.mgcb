@@ -439,6 +439,18 @@
 /processorParam:Quality=Best
 /build:Sounds/clap.wav
 
+#begin Sounds/pressure_off.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pressure_off.wav
+
+#begin Sounds/pressure_on.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pressure_on.wav
+
 #begin Sounds/pressure_plate.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

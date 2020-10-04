@@ -44,7 +44,7 @@ namespace RetroRedo.Entities
                     }
                 }
 
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+                ContentChest.Get<SoundEffect>("Sounds/pressure_on").Play();
             }
         }
 
@@ -76,7 +76,7 @@ namespace RetroRedo.Entities
                     }
                 }
 
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+                ContentChest.Get<SoundEffect>("Sounds/pressure_off").Play();
             }
         }
 
