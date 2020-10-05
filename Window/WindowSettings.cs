@@ -2,7 +2,7 @@
 
 namespace RetroRedo.Window
 {
-    public class WindowSettings
+    public static class WindowSettings
     {
         public static int WindowWidth { get; set; } = 1280;
         public static int WindowHeight { get; set; } = 720;

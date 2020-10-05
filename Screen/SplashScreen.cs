@@ -10,7 +10,6 @@ namespace RetroRedo.Screen
     {
         private const int MillisecondsToShowFor = 3000;
 
-        public ScreenType ScreenType => ScreenType.Splash;
         public bool Ended { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         

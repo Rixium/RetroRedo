@@ -10,8 +10,8 @@ namespace RetroRedo.Maps
     {
         private const int TileRenderSize = 16;
         private const int ActualTileSize = 16;
-        
-        HashSet<Tile> _historyTiles = new HashSet<Tile>();
+
+        readonly HashSet<Tile> _historyTiles = new HashSet<Tile>();
 
         private Map _map;
 

@@ -17,23 +17,20 @@ namespace RetroRedo.Screen
 
     public class GameScreen : IScreen
     {
-        private Camera _camera = new Camera();
+        private readonly Camera _camera = new Camera();
 
-        private bool Paused = false;
         private static int _currentMapHistoryState;
         private static MapEntityHistoryService _mapEntityHistoryService;
         
         public static int CurrentMap = 1;
-        public static int MapRefreshes = 0;
+        private static int _mapRefreshes;
         
         private readonly MapLoader _mapLoader;
         private readonly MapRenderer _mapRenderer;
 
-        private Map _activeMap;
+        private readonly Map _activeMap;
         private static float _timeSinceLastMove;
         private static float _controlFadeIn;
-
-        public ScreenType ScreenType => ScreenType.Game;
         public bool Ended { get; private set; }
         public Action<IScreen> RequestScreenChange { get; set; }
 
@@ -87,7 +84,7 @@ namespace RetroRedo.Screen
             
             _mapEntityHistoryService.Reset();
 
-            MapRefreshes = 0;
+            _mapRefreshes = 0;
             Game1.Input.Reset();
             TurnService.PlayersTurn = true;
 
@@ -107,7 +104,7 @@ namespace RetroRedo.Screen
                 autoCommandComponent.ForceFinish();
             }
 
-            MapRefreshes++;
+            _mapRefreshes++;
             SaveHistoricalEntities();
             
             Game1.Input.Reset();
@@ -202,6 +199,7 @@ namespace RetroRedo.Screen
             Game1.Input.Reset();
             TurnService.PlayersTurn = true;
             CurrentMap++;
+            _mapRefreshes = 0;
 
             if (_mapLoader.LoadMap(CurrentMap) == null)
             {
@@ -234,9 +232,9 @@ namespace RetroRedo.Screen
 
             var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
             
-            spriteBatch.DrawString(font, $"Redos: {MapRefreshes}",
+            spriteBatch.DrawString(font, $"Redos: {_mapRefreshes}",
                 new Vector2(40,
-                    WindowSettings.WindowHeight - font.MeasureString($"{MapRefreshes}").Y - 40),
+                    WindowSettings.WindowHeight - font.MeasureString($"{_mapRefreshes}").Y - 40),
                 Color.White);
 
             spriteBatch.DrawString(font, "W: Move Up",

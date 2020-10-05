@@ -5,8 +5,6 @@ namespace RetroRedo.Screen
 {
     public class BlankScreen : IScreen
     {
-        public ScreenType ScreenType => ScreenType.None;
-
         public bool Ended => true;
         public Action<IScreen> RequestScreenChange { get; set; }
 

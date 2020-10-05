@@ -7,8 +7,6 @@ namespace RetroRedo.Input
     {
         void Update();
         void OnKeyPressed(Keys keys, Action action);
-        void OnKeyHeld(Keys keys, Action action);
-        void OnKeyReleased(Keys keys, Action action);
         void Reset();
     }
 }

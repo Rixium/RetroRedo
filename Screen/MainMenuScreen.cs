@@ -12,9 +12,7 @@ namespace RetroRedo.Screen
     {
         private const string GameTitle = "RetroRedo";
         private const string StartGameText = "Press X to Redo";
-
-        public ScreenType ScreenType => ScreenType.MainMenu;
-
+        
         public bool Ended { get; private set; }
         public Action<IScreen> RequestScreenChange { get; set; }
 
