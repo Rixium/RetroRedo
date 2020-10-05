@@ -8,7 +8,7 @@ namespace RetroRedo.Components
     public class AutoCommandComponent : IComponent
     {
         private CommandSetComponent _commandSetComponent;
-        public Queue<ICommand> CommandQueue { get; set; } = new Queue<ICommand>();
+        private Queue<ICommand> CommandQueue { get; set; } = new Queue<ICommand>();
 
         public IEntity Entity { get; set; }
 

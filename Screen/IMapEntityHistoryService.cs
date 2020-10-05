@@ -4,18 +4,11 @@ using RetroRedo.Entities;
 
 namespace RetroRedo.Screen
 {
-    public interface IMapEntityHistoryService
-    {
-        void AddEntities(IList<IEntity> entities);
-        IList<IEntity> GetHistoricalEntities();
-        void Reset();
-    }
-
-    public class MapEntityHistoryService : IMapEntityHistoryService
+    public class MapEntityHistoryService
     {
         private readonly IList<IEntity> _historicalEntities = new List<IEntity>();
 
-        public void AddEntities(IList<IEntity> entities)
+        public void AddEntities(IEnumerable<IEntity> entities)
         {
             foreach (var entity in entities)
             {
@@ -24,7 +17,7 @@ namespace RetroRedo.Screen
             }
         }
 
-        public IList<IEntity> GetHistoricalEntities() => _historicalEntities;
+        public IEnumerable<IEntity> GetHistoricalEntities() => _historicalEntities;
         public void Reset() => _historicalEntities.Clear();
     }
 }

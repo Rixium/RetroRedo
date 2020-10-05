@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using RetroRedo.Window;
 
-namespace RetroRedo
+namespace RetroRedo.Utils
 {
     public class Camera
     {

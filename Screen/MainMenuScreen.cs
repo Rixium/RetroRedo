@@ -55,7 +55,7 @@ namespace RetroRedo.Screen
             spriteBatch.Begin();
 
             spriteBatch.DrawString(_titleFont, GameTitle,
-                WindowSettings.Center - (new Vector2(0, 1) * WindowSettings.Center / 2) - _gameTitleTextSize / 2,
+                WindowSettings.Center - new Vector2(0, 1) * WindowSettings.Center / 2 - _gameTitleTextSize / 2,
                 Color.White);
 
             _startGameText.Render(spriteBatch);

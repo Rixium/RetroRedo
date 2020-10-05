@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RetroRedo.Input
 {
-    public class InputService : IInputService
+    public class InputService
     {
         private KeyboardState _lastKeyboardState;
 

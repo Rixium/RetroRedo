@@ -5,11 +5,11 @@ namespace RetroRedo.Screen
 {
     public class FadeyText
     {
+        private const float FadeSpeed = 0.5f;
         private readonly float _minAlpha;
         private readonly string _text;
         private readonly SpriteFont _font;
         private readonly Vector2 _position;
-        private readonly float _fadeSpeed = 0.5f;
         private readonly Vector2 _textSize;
 
         private float _alpha;
@@ -29,7 +29,7 @@ namespace RetroRedo.Screen
         {
             if (_fadingOut)
             {
-                _alpha -= _fadeSpeed * delta;
+                _alpha -= FadeSpeed * delta;
 
                 if (_alpha <= _minAlpha)
                 {
@@ -38,7 +38,7 @@ namespace RetroRedo.Screen
             }
             else
             {
-                _alpha += _fadeSpeed * delta;
+                _alpha += FadeSpeed * delta;
 
                 if (_alpha >= 1)
                 {

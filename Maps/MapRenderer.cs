@@ -6,18 +6,18 @@ using RetroRedo.Entities;
 
 namespace RetroRedo.Maps
 {
-    public class MapRenderer : IMapRenderer
+    public class MapRenderer
     {
         private const int TileRenderSize = 16;
         private const int ActualTileSize = 16;
 
-        readonly HashSet<Tile> _historyTiles = new HashSet<Tile>();
+        private readonly HashSet<Tile> _historyTiles = new HashSet<Tile>();
 
         private Map _map;
 
         public void SetMap(Map map) => _map = map;
 
-        public void Render(SpriteBatch spriteBatch, IList<IEntity> historical)
+        public void Render(SpriteBatch spriteBatch, IEnumerable<IEntity> historical)
         {
             if (_map == null)
             {

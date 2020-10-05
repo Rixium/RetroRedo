@@ -8,12 +8,12 @@ namespace RetroRedo.Entities
 {
     public class WaitDoor : Entity
     {
+        private const float AnimSpeed = 0.1f;
+        private const int MaxDoorImage = 5;
+        private const int MinDoorImage = 1;
         private int _waitTime;
         private int _currDoorImage;
         private float _doorTimer;
-        private float _animSpeed = 0.1f;
-        private int _maxDoorImage = 5;
-        private int _minDoorImage = 1;
 
         public WaitDoor(in int tileX, in int tileY, int waitTime, bool blocking)
         {
@@ -23,14 +23,7 @@ namespace RetroRedo.Entities
             
             Blocking = blocking;
             
-            if (blocking)
-            {
-                _currDoorImage = _minDoorImage;
-            }
-            else
-            {
-                _currDoorImage = _maxDoorImage;
-            }
+            _currDoorImage = blocking ? MinDoorImage : MaxDoorImage;
         }
 
         public override void Entered(IEntity other)
@@ -48,13 +41,13 @@ namespace RetroRedo.Entities
             if (Opening)
             {
                 _doorTimer += GameTimeService.DeltaTime;
-                if (_doorTimer > _animSpeed)
+                if (_doorTimer > AnimSpeed)
                 {
                     _currDoorImage++;
                     _doorTimer = 0;
-                    if (_currDoorImage > _maxDoorImage)
+                    if (_currDoorImage > MaxDoorImage)
                     {
-                        _currDoorImage = _maxDoorImage;
+                        _currDoorImage = MaxDoorImage;
                         Opening = false;
                         Blocking = false;
                     }
@@ -62,12 +55,12 @@ namespace RetroRedo.Entities
             } else if (Closing)
             {
                 _doorTimer += GameTimeService.DeltaTime;
-                if (_doorTimer > _animSpeed)
+                if (_doorTimer > AnimSpeed)
                 {
                     _currDoorImage--;
-                    if (_currDoorImage < _minDoorImage)
+                    if (_currDoorImage < MinDoorImage)
                     {
-                        _currDoorImage = _minDoorImage;
+                        _currDoorImage = MinDoorImage;
                         Closing = false;
                         Blocking = true;
                     }
@@ -77,9 +70,9 @@ namespace RetroRedo.Entities
             base.AnyTimeUpdate();
         }
 
-        public bool Closing { get; set; }
+        private bool Closing { get; set; }
 
-        public bool Opening { get; set; }
+        private bool Opening { get; set; }
 
         public override void Render(SpriteBatch spriteBatch)
         {
@@ -105,12 +98,12 @@ namespace RetroRedo.Entities
             
             _waitTime--;
 
-            if (_waitTime <= 0)
-            {
-                _waitTime = 0;
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
-                Opening = true;
-            }
+            if (_waitTime > 0) 
+                return;
+            
+            _waitTime = 0;
+            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+            Opening = true;
         }
     }
 }

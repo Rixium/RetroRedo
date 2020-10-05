@@ -8,15 +8,21 @@ namespace RetroRedo.Entities
 {
     public class Door : Entity
     {
+        private const float AnimSpeed = 0.1f;
+        private const float MaxDoorImage = 5;
+        private const float MinDoorImage = 1;
 
         private float _doorTimer;
-        private float _animSpeed = 0.1f;
-        private float _currDoorImage = 1;
-        private float _maxDoorImage = 5;
-        private float _minDoorImage = 1;
+        private float _currDoorImage;
 
         private bool _open;
         private bool _closed;
+        
+        private bool Closing { get; set; }
+        private bool Opening { get; set; }
+        public bool Side { get; set; }
+        public int Requires { get; set; }
+        public bool ClosedAtStart { get; }
         
         public int DoorId { get; }
 
@@ -31,12 +37,12 @@ namespace RetroRedo.Entities
             if (blocking)
             {
                 _closed = true;
-                _currDoorImage = _minDoorImage;
+                _currDoorImage = MinDoorImage;
             }
             else
             {
                 _open = true;
-                _currDoorImage = _maxDoorImage;
+                _currDoorImage = MaxDoorImage;
             }
         }
 
@@ -62,30 +68,28 @@ namespace RetroRedo.Entities
                 ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play(0.5f, 0, 0);
                 return;
             }
+
+            if (!_closed && !Closing) return;
             
-            if (_closed || Closing)
-            {
-                Opening = true;
-                Closing = false;
-                _closed = false;
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play(0.5f, 0, 0);
-            }
+            Opening = true;
+            Closing = false;
+            _closed = false;
+            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play(0.5f, 0, 0);
         }
 
-        public bool Closing { get; set; }
 
         public override void AnyTimeUpdate()
         {
             if (Opening)
             {
                 _doorTimer += GameTimeService.DeltaTime;
-                if (_doorTimer > _animSpeed)
+                if (_doorTimer > AnimSpeed)
                 {
                     _currDoorImage++;
                     _doorTimer = 0;
-                    if (_currDoorImage >= _maxDoorImage)
+                    if (_currDoorImage >= MaxDoorImage)
                     {
-                        _currDoorImage = _maxDoorImage;
+                        _currDoorImage = MaxDoorImage;
                         Opening = false;
                         Blocking = false;
                         Closing = false; 
@@ -98,13 +102,13 @@ namespace RetroRedo.Entities
             if (Closing)
             {
                 _doorTimer += GameTimeService.DeltaTime;
-                if (_doorTimer > _animSpeed)
+                if (_doorTimer > AnimSpeed)
                 {
                     _currDoorImage--;
                     _doorTimer = 0;
-                    if (_currDoorImage <= _minDoorImage)
+                    if (_currDoorImage <= MinDoorImage)
                     {
-                        _currDoorImage = _minDoorImage;
+                        _currDoorImage = MinDoorImage;
                         Closing = false;
                         Opening = false;
                         Blocking = true;
@@ -116,33 +120,30 @@ namespace RetroRedo.Entities
             base.AnyTimeUpdate();
         }
 
-        public bool Opening { get; set; }
-        public bool Side { get; set; }
-        public int Requires { get; set; }
-        public bool ClosedAtStart { get; set; }
 
         public void Close()
         {            
             _doorTimer = 0;
-            if (_open || Opening)
-            {
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
-                Closing = true;
-                Blocking = true;
-                Opening = false;
-                _open = false;
-            }
+            
+            if (!_open && !Opening) 
+                return;
+            
+            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+            Closing = true;
+            Blocking = true;
+            Opening = false;
+            _open = false;
         }
 
         public void Open()
         {
-            if (_closed || Closing)
-            {
-                ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
-                Opening = true;
-                Closing = false;
-                _closed = false;
-            }
+            if (!_closed && !Closing) 
+                return;
+            
+            ContentChest.Get<SoundEffect>("Sounds/pressure_plate").Play();
+            Opening = true;
+            Closing = false;
+            _closed = false;
         }
         
         public override void Render(SpriteBatch spriteBatch)

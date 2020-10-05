@@ -5,9 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RetroRedo.Content
 {
-    public class ContentChest
+    public static class ContentChest
     {
-        private const string RootDirectory = "Content";
         private static ContentManager _contentManager;
 
         public static void SetContentManager(ContentManager contentManager)

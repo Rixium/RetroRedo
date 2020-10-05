@@ -6,6 +6,8 @@ namespace RetroRedo.Screen
     public class BlankScreen : IScreen
     {
         public bool Ended => true;
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Action<IScreen> RequestScreenChange { get; set; }
 
         public void Begin()
@@ -25,7 +27,6 @@ namespace RetroRedo.Screen
 
         public void FadedOut()
         {
-            
         }
     }
 }

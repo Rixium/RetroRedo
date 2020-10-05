@@ -10,7 +10,7 @@ namespace RetroRedo.Screen
     {
         private const int MillisecondsToShowFor = 3000;
 
-        public bool Ended { get; set; }
+        public bool Ended { get; private set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         
 
@@ -18,7 +18,7 @@ namespace RetroRedo.Screen
         {
             var timer = new Timer
             {
-                Interval = MillisecondsToShowFor,
+                Interval = MillisecondsToShowFor
             };
 
             timer.Elapsed += (x, y) =>

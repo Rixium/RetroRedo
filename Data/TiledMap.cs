@@ -1,4 +1,5 @@
-﻿namespace RetroRedo.Data
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+namespace RetroRedo.Data
 {
     public class TiledMap
     {

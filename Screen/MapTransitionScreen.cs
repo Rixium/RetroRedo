@@ -23,7 +23,7 @@ namespace RetroRedo.Screen
 
         public MapTransitionScreen()
         {
-            _mapLoader = new MapLoader(new MapParser());
+            _mapLoader = new MapLoader();
         }
         
         public void Begin()
@@ -48,7 +48,7 @@ namespace RetroRedo.Screen
             
             var timer = new Timer
             {
-                Interval = MillisecondsToShowFor,
+                Interval = MillisecondsToShowFor
             };
 
             timer.Elapsed += (x, y) =>

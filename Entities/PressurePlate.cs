@@ -9,9 +9,8 @@ namespace RetroRedo.Entities
 {
     internal class PressurePlate : Entity
     {
-        public int DoorId { get; private set; }
-        private HashSet<IEntity> _onEntities = new HashSet<IEntity>();
-        private int _onCount;
+        public int DoorId { get; }
+        private readonly HashSet<IEntity> _onEntities = new HashSet<IEntity>();
 
         public PressurePlate(int tileX, int tileY, int doorId)
         {
@@ -23,37 +22,36 @@ namespace RetroRedo.Entities
         public override void Entered(IEntity other)
         {
             var added = _onEntities.Add(other);
+
+            if (!added || _onEntities.Count != 1)
+                return;
             
-            if (added && _onEntities.Count == 1)
+            var doors =
+                CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
+
+            if (doors == null) return;
+
+            foreach (var entity in doors)
             {
-                var doors =
-                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
+                var door = (Door) entity;
 
-                if (doors == null) return;
+                door.Requires--;
 
-                foreach (var entity in doors)
-                {
-                    var door = (Door) entity;
-
-                    door.Requires--;
-
-                    if (door.Requires <= 0)
-                    {
-                        door.Requires = 0;
+                if (door.Requires > 0) continue;
+                    
+                door.Requires = 0;
                         
-                        if (door.ClosedAtStart)
-                        {
-                            door.Open();
-                        }
-                        else
-                        {
-                            door.Close();
-                        }
-                    }
+                if (door.ClosedAtStart)
+                {
+                    door.Open();
                 }
-
-                ContentChest.Get<SoundEffect>("Sounds/pressure_on").Play();
+                else
+                {
+                    door.Close();
+                }
             }
+
+            ContentChest.Get<SoundEffect>("Sounds/pressure_on").Play();
         }
 
         public override void Left(IEntity other)
@@ -64,35 +62,35 @@ namespace RetroRedo.Entities
             {
                 return;
             }
+
+            if (!removed) 
+                return;
             
-            if (removed)
+            var doors =
+                CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
+
+            if (doors == null) return;
+
+            foreach (var entity in doors)
             {
-                var doors =
-                    CurrentMap?.Entities?.Where(x => x.GetType() == typeof(Door) && ((Door) x).DoorId == DoorId);
+                var door = (Door) entity;
 
-                if (doors == null) return;
+                door.Requires++;
 
-                foreach (var entity in doors)
+                if (door.Requires <= 0) 
+                    continue;
+                    
+                if (door.ClosedAtStart)
                 {
-                    var door = (Door) entity;
-
-                    door.Requires++;
-
-                    if (door.Requires > 0)
-                    {
-                        if (door.ClosedAtStart)
-                        {
-                            door.Close();
-                        }
-                        else
-                        {
-                            door.Open();
-                        }
-                    }
+                    door.Close();
                 }
-
-                ContentChest.Get<SoundEffect>("Sounds/pressure_off").Play();
+                else
+                {
+                    door.Open();
+                }
             }
+
+            ContentChest.Get<SoundEffect>("Sounds/pressure_off").Play();
         }
 
         public override void Render(SpriteBatch spriteBatch)

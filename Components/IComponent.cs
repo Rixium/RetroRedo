@@ -4,7 +4,7 @@ namespace RetroRedo.Components
 {
     public interface IComponent
     {
-        IEntity Entity { get; set; }
+        IEntity Entity { set; }
         void Begin();
         void Update();
     }

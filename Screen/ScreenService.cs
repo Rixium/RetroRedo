@@ -14,10 +14,10 @@ namespace RetroRedo.Screen
         private bool _transitioningIn;
         private float _currentTransitionAlpha;
 
-        public IScreen CurrentScreen
+        private IScreen CurrentScreen
         {
             get => _currentScreen;
-            private set
+            set
             {
                 if (value != null)
                 {
@@ -26,8 +26,8 @@ namespace RetroRedo.Screen
             }
         }
 
-        public float TransitionSpeed { get; set; } = 10f;
-        public IScreen NextScreen { get; private set; }
+        private float TransitionSpeed { get; } = 10f;
+        private IScreen NextScreen { get; set; }
 
         public void SetNextScreen(IScreen screen)
         {
@@ -47,22 +47,24 @@ namespace RetroRedo.Screen
             if (_transitioningOut)
             {
                 _currentTransitionAlpha += delta * TransitionSpeed;
-                if (_currentTransitionAlpha >= 1)
-                {
-                    _transitioningOut = false;
-                    _currentScreen?.FadedOut();
-                    GoToNextScreen();
-                    _transitioningIn = true;
-                }
+                
+                if (!(_currentTransitionAlpha >= 1)) 
+                    return;
+                
+                _transitioningOut = false;
+                _currentScreen?.FadedOut();
+                GoToNextScreen();
+                _transitioningIn = true;
             }
             else if (_transitioningIn)
             {
                 _currentTransitionAlpha -= delta * TransitionSpeed;
-                if (_currentTransitionAlpha <= 0)
-                {
-                    _transitioningIn = false;
-                    _transitioningOut = false;
-                }
+                
+                if (!(_currentTransitionAlpha <= 0)) 
+                    return;
+                
+                _transitioningIn = false;
+                _transitioningOut = false;
             }
             else
             {
@@ -88,15 +90,15 @@ namespace RetroRedo.Screen
         public void RenderScreen(SpriteBatch spriteBatch)
         {
             CurrentScreen.Render(spriteBatch);
+
+            if (!_transitioningIn && !_transitioningOut) 
+                return;
             
-            if (_transitioningIn || _transitioningOut)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
-                    new Rectangle(0, 0, WindowSettings.WindowWidth, WindowSettings.WindowHeight),
-                    Color.Black * _currentTransitionAlpha);
-                spriteBatch.End();
-            }
+            spriteBatch.Begin();
+            spriteBatch.Draw(ContentChest.Get<Texture2D>("Images/pixel"),
+                new Rectangle(0, 0, WindowSettings.WindowWidth, WindowSettings.WindowHeight),
+                Color.Black * _currentTransitionAlpha);
+            spriteBatch.End();
         }
     }
 }

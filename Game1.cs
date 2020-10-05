@@ -9,7 +9,7 @@ namespace RetroRedo
 {
     public class Game1 : Game
     {
-        public static IInputService Input;
+        public static InputService Input;
 
         private readonly IScreenService _screenService;
         private readonly IGameTimeService _gameTimeService;

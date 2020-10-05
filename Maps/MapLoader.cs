@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -7,17 +6,11 @@ using RetroRedo.Data;
 
 namespace RetroRedo.Maps
 {
-    internal class MapLoader : IMapLoader
+    internal class MapLoader
     {
-        private readonly IMapParser _mapParser;
         private IList<Map> _maps = new List<Map>();
 
-        public MapLoader(IMapParser mapParser)
-        {
-            _mapParser = mapParser;
-        }
-        
-        public IReadOnlyCollection<Map> LoadAll()
+        private void LoadAll()
         {
             _maps = new List<Map>();
             
@@ -30,11 +23,9 @@ namespace RetroRedo.Maps
                 var tiledMap = JsonConvert.DeserializeObject<TiledMap>(mapText);
                 tiledMap.MapId = mapNumber;
                 
-                var parsedMap = _mapParser.Parse(tiledMap);
+                var parsedMap = MapParser.Parse(tiledMap);
                 _maps.Add(parsedMap);
             }
-
-            return _maps.ToImmutableList();
         }
 
         public Map LoadMap(int mapId)

@@ -10,6 +10,7 @@ using RetroRedo.Content;
 using RetroRedo.Entities;
 using RetroRedo.Maps;
 using RetroRedo.Services;
+using RetroRedo.Utils;
 using RetroRedo.Window;
 
 namespace RetroRedo.Screen
@@ -36,7 +37,7 @@ namespace RetroRedo.Screen
 
         public GameScreen()
         {
-            _mapLoader = new MapLoader(new MapParser());
+            _mapLoader = new MapLoader();
             _mapRenderer = new MapRenderer();
 
             if (CurrentMap > _currentMapHistoryState)
@@ -226,9 +227,9 @@ namespace RetroRedo.Screen
             
             // UI
             spriteBatch.Begin();
-            var titlefont = ContentChest.Get<SpriteFont>("Fonts/TitleFont");
-            spriteBatch.DrawString(titlefont, _activeMap.Name, 
-                new Vector2(1, 0) * WindowSettings.Center + new Vector2(0, 70) - titlefont.MeasureString(_activeMap.Name) / 2.0f, Color.White);
+            var titleFont = ContentChest.Get<SpriteFont>("Fonts/TitleFont");
+            spriteBatch.DrawString(titleFont, _activeMap.Name, 
+                new Vector2(1, 0) * WindowSettings.Center + new Vector2(0, 70) - titleFont.MeasureString(_activeMap.Name) / 2.0f, Color.White);
 
             var font = ContentChest.Get<SpriteFont>("Fonts/MainFont");
             
@@ -274,7 +275,5 @@ namespace RetroRedo.Screen
         {
 
         }
-
-        public bool Stop { get; set; }
     }
 }

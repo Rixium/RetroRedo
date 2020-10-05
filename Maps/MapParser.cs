@@ -7,15 +7,15 @@ using RetroRedo.Entities;
 
 namespace RetroRedo.Maps
 {
-    public class MapParser : IMapParser
+    public static class MapParser
     {
-        public Map Parse(TiledMap tiledMap)
+        public static Map Parse(TiledMap tiledMap)
         {
             var mapName = tiledMap.Properties.First(x => x.Name.Equals("Name")).Value;
             var mapTiles = ParseTiles(tiledMap);
-            var mapEntities = ParseEntities(tiledMap);
+            var (player, otherEntities) = ParseEntities(tiledMap);
 
-            foreach (var mapEntity in mapEntities.OtherEntities)
+            foreach (var mapEntity in otherEntities)
             {
                 mapTiles[mapEntity.X, mapEntity.Y].TileEntities.Add(mapEntity);
             }
@@ -29,8 +29,8 @@ namespace RetroRedo.Maps
                 TileHeight = tiledMap.TileHeight,
                 MapWidth = tiledMap.Width,
                 MapHeight = tiledMap.Height,
-                Player = mapEntities.Player,
-                Entities = mapEntities.OtherEntities
+                Player = player,
+                Entities = otherEntities
             };
 
             return map;
@@ -83,18 +83,16 @@ namespace RetroRedo.Maps
                 }
             }
 
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var entity in entities)
             {
-                if (entity.GetType() == typeof(Door))
+                if (entity.GetType() != typeof(Door)) 
+                    continue;
+                
+                var door = (Door) entity;
+                foreach (var unused in pressurePlates.Where(pressurePlate => pressurePlate.DoorId == door.DoorId))
                 {
-                    var door = (Door) entity;
-                    foreach (var pressurePlate in pressurePlates)
-                    {
-                        if (pressurePlate.DoorId == door.DoorId)
-                        {
-                            door.Requires++;
-                        }
-                    }
+                    door.Requires++;
                 }
             }
 

@@ -8,13 +8,12 @@ namespace RetroRedo.Entities
 {
     public abstract class Entity : IEntity
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public IList<IComponent> Components { get; } = new List<IComponent>();
+        public int X { get; protected set; }
+        public int Y { get; protected set; }
+        private IList<IComponent> Components { get; } = new List<IComponent>();
         public Map CurrentMap { get; set; }
-        public bool Blocking { get; set; } = false;
-
-        public Tile Tile => CurrentMap.TileAt(X, Y);
+        public bool Blocking { get; protected set; }
+        protected Tile Tile => CurrentMap.TileAt(X, Y);
 
         public virtual void Update()
         {
@@ -24,11 +23,10 @@ namespace RetroRedo.Entities
             }
         }
 
-        public T AddComponent<T>(T component) where T : IComponent
+        public void AddComponent<T>(T component) where T : IComponent
         {
             Components.Add(component);
             component.Entity = this;
-            return component;
         }
 
         public T GetComponent<T>() where T : IComponent =>
@@ -42,8 +40,6 @@ namespace RetroRedo.Entities
             }
         }
 
-        public void RemoveComponent<T>() => Components.Remove(Components.First(x => x.GetType() == typeof(T)));
-        
         public void Move(int xChange, int yChange)
         {
             Tile.OnExit(this);
@@ -66,11 +62,11 @@ namespace RetroRedo.Entities
         {
             foreach (var entity in CurrentMap.Entities)
             {
-                if (entity.GetType() == typeof(WaitDoor))
-                {
-                    var waitDoor = (WaitDoor) entity;
-                    waitDoor.Tick();
-                }
+                if (entity.GetType() != typeof(WaitDoor)) 
+                    continue;
+                
+                var waitDoor = (WaitDoor) entity;
+                waitDoor.Tick();
             }
         }
 
