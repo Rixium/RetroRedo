@@ -12,7 +12,7 @@ namespace RetroRedo.Content
         public static void SetContentManager(ContentManager contentManager)
         {
             _contentManager = contentManager;
-            _contentManager.RootDirectory = "Content";
+            _contentManager.RootDirectory = "assets";
         }
 
         public static void Load()

@@ -23,9 +23,9 @@ namespace RetroRedo.Screen
 
             timer.Elapsed += (x, y) =>
             {
+                timer.Stop();
                 RequestScreenChange?.Invoke(new MainMenuScreen());
                 Ended = true;
-                timer.Stop();
             };
 
             timer.Start();

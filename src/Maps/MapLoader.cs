@@ -14,7 +14,7 @@ namespace RetroRedo.Maps
         {
             _maps = new List<Map>();
             
-            var mapFiles = Directory.GetFiles(Path.Combine("Content", "Maps"));
+            var mapFiles = Directory.GetFiles(Path.Combine("assets", "Maps"));
 
             foreach (var mapFile in mapFiles)
             {
